@@ -2,6 +2,7 @@
 #include "../base/candy_log.h"
 #include "../core/candy_context.h"
 #include "candy_worker.h"
+#include "candy_worker_pool.h"
 #include "../base/candy_error.h"
 
 #define CANDY_AIO_READ_BUFFER_SIZE 65536
@@ -12,9 +13,10 @@ static void candy_aio_regist_event(void* arg);
 static void candy_aio_event(void* arg,int event);
 static void candy_aio_handle_error(struct candy_aio* aio,int code);
 static void candy_aio_timer(void *arg);
-void candy_aio_init(struct candy_aio* aio,int s,struct candy_worker* worker){
+void candy_aio_init(struct candy_aio* aio,struct candy_aio_pool* woner,int s,struct candy_worker* worker){
 	aio->state = CANDY_AIO_READY;
 	aio->worker = worker;
+	aio->owner = woner;
 	aio->sock = CANDY_INVALID_SOCKET;
 	aio->handle = s;
 	aio->is_close = 0;
@@ -132,7 +134,7 @@ int candy_aio_close(struct candy_aio* aio){
 
 void candy_aio_accept(struct candy_aio* aio){
 	candy_socket_t sock = candy_socket_accept(aio->sock);
-	struct candy_aio* tmp = candy_context_alloc_aio();
+	struct candy_aio* tmp = candy_aio_pool_alloc_aio(aio->owner,candy_worker_pool_next(candy_worker_owner(aio->worker)));
 	if(!tmp){
 		CANDY_ERROR("candy_aio_accept FD %s","full");
 		candy_socket_close(sock);

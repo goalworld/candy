@@ -17,6 +17,7 @@ enum{
 };
 
 struct candy_aio{
+	struct candy_aio_pool* owner;
 	struct candy_worker* worker;
 	struct candy_poller_event event;
 	candy_socket_t sock;
@@ -34,7 +35,7 @@ struct candy_aio{
 #define candy_aio_get_handle(aio) (aio)->handle
 #define candy_aio_set_callback(aio,cb) do{ (aio)->callback = cb; }while(0)
 
-void candy_aio_init(struct candy_aio* aio,int s,struct candy_worker* worker);
+void candy_aio_init(struct candy_aio* aio,struct candy_aio_pool* woner,int s,struct candy_worker* worker);
 int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock);
 int candy_aio_listen(struct candy_aio* aio,const char* ip,int port);
 int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout);

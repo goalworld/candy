@@ -31,8 +31,10 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_poller.o\
 		$(OBJ_PATH)candy_socket.o\
 		$(OBJ_PATH)candy_worker.o\
+		$(OBJ_PATH)candy_worker_pool.o\
 		$(OBJ_PATH)candy_sleep.o\
-		$(OBJ_PATH)candy.o
+		$(OBJ_PATH)candy.o\
+		$(OBJ_PATH)candy_aio_pool.o
 
 $(OBJ_PATH)candy.o : $(SRC_PATH)core/candy.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
@@ -64,6 +66,9 @@ $(OBJ_PATH)candy_timer.o : $(SRC_PATH)base/candy_timer.c
 $(OBJ_PATH)candy_aio.o : $(SRC_PATH)aio/candy_aio.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
+$(OBJ_PATH)candy_aio_pool.o : $(SRC_PATH)aio/candy_aio_pool.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
 $(OBJ_PATH)candy_poller.o : $(SRC_PATH)aio/candy_poller.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
@@ -71,6 +76,9 @@ $(OBJ_PATH)candy_socket.o : $(SRC_PATH)aio/candy_socket.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_worker.o : $(SRC_PATH)aio/candy_worker.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_worker_pool.o : $(SRC_PATH)aio/candy_worker_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)server.o : $(SRC_PATH)test/server.c

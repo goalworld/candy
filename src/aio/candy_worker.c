@@ -27,8 +27,9 @@ static void candy_worker_run_queue(void *arg){
 		task.fn(task.arg);
 	}
 }
-void candy_worker_init(struct candy_worker* self){
+void candy_worker_init(struct candy_worker* self,struct candy_worker_pool*owner){
 	self->stop = 0;
+	self->owner = owner;
 	candy_poller_init(&self->poller);
 	candy_timer_init(&self->timer);
 	candy_mutex_init(&self->mutex);

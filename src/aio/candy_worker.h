@@ -9,6 +9,7 @@
 typedef void(*candy_worker_fn)(void* arg);
 
 struct candy_worker{
+	struct candy_worker_pool* owner;
 	struct candy_poller poller;
 	struct candy_timer timer;
 	struct candy_thread thread;
@@ -18,8 +19,8 @@ struct candy_worker{
 	int stop;
 	thread_id id;
 };
-
-void candy_worker_init(struct candy_worker*);
+#define candy_worker_owner(ptr) (ptr)->owner
+void candy_worker_init(struct candy_worker*,struct candy_worker_pool*);
 void candy_worker_destroy(struct candy_worker*);
 void candy_worker_add_event(struct candy_worker*,struct candy_poller_event*);
 void candy_worker_remove_event(struct candy_worker*,struct candy_poller_event*);

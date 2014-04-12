@@ -20,8 +20,8 @@ struct candy_callback{
 	void (*accept_fn)(void* arg,int s);
 	void *arg;
 };
-int candy_start(int nt);
-int candy_stop();
+void candy_start(int nt);
+void candy_stop();
 
 int candy_socket();
 int candy_set_callback(int s,struct candy_callback cb);
