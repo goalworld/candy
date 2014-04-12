@@ -90,9 +90,9 @@ $(OBJ_PATH)client.o : $(SRC_PATH)test/client.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(BUILD_PATH)test_server.exe: $(OBJ_PATH)server.o
-	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH)
+	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH) -Wl,-rpath,$(BUILD_PATH)
 $(BUILD_PATH)test_client.exe: $(OBJ_PATH)client.o
-	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH)
+	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH) -Wl,-rpath,$(BUILD_PATH)
 $(BUILD_PATH)libcandy.so:$(OBJS)
 	$(CC) $(CFLAGS) $(INC_DIR) $(SHARED) -o $@ $^   -lpthread
 
