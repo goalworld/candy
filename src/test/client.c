@@ -42,7 +42,7 @@ static void close_fn(void* arg,int code){
 
 int main(int argc,char* argv[]){
 	candy_start(4);
-	int max = 100;
+	int max = 1;
 	int i=0;
 	if(argc == 2){
 		max = atoi(argv[1]);

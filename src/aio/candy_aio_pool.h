@@ -12,7 +12,6 @@ struct candy_aio_pool{
 	int* unused;
 	int max_aio;
 	int num_aio;
-
 };
 void candy_aio_pool_init(struct candy_aio_pool* self,int max_aio);
 void candy_aio_pool_destroy(struct candy_aio_pool* self);

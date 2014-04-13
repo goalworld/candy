@@ -21,8 +21,7 @@ void candy_aio_pool_destroy(struct candy_aio_pool* self){
 	for(i=0;i<self->max_aio;i++){
 		struct candy_aio* aio = self->aio_map[i];
 		if(aio){
-			candy_aio_close(aio);
-			free(aio);
+			candy_aio_execute(aio,candy_close_and_free_aio,(void*)aio);
 		}
 	}
 	free(self->aio_map);
@@ -64,15 +63,14 @@ int candy_aio_pool_free(struct candy_aio_pool* self,int handle){
 	self->num_aio--;
 	self->unused[self->max_aio-self->num_aio-1] = handle;
 	self->aio_map[handle] = NULL;
-	candy_worker_execute(candy_aio_get_worker(aio),candy_close_and_free_aio,(void*)aio);
+	candy_aio_execute(aio,candy_close_and_free_aio,(void*)aio);
 	candy_mutex_unlock(&self->mtx);
 	return 0;
 }
 
 void candy_close_and_free_aio(void* arg){
-
 	struct candy_aio* aio = (struct candy_aio*)arg;
 	CANDY_ERROR("candy_close_and_free_aio handle:%d",candy_aio_get_handle(aio));
-	candy_aio_close(aio);
+	candy_aio_destroy(aio);
 	free(aio);
 }

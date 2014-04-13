@@ -17,8 +17,8 @@ candy_context_init(struct candy_context* self,int num_thread,int max_aio){
 }
 void 
 candy_context_destroy(struct candy_context* self){
-	candy_worker_pool_destroy(&self->worker_pool);
 	candy_aio_pool_destroy(&self->aio_pool);
+	candy_worker_pool_destroy(&self->worker_pool);
 }
 
 int 

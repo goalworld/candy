@@ -4,9 +4,11 @@
 #include "candy_worker.h"
 #include "candy_worker_pool.h"
 #include "../base/candy_error.h"
+#include <memory.h>
+
 
 #define CANDY_AIO_READ_BUFFER_SIZE 65536
-
+static void candy_aio_cb_accept(void *arg);
 static void candy_aio_accept(struct candy_aio* aio);
 static void candy_aio_read(struct candy_aio* aio);
 static void candy_aio_regist_event(void* arg);
@@ -23,6 +25,7 @@ void candy_aio_init(struct candy_aio* aio,struct candy_aio_pool* woner,int s,str
 	aio->snd_size = 0;
 	aio->rcv_size = 0;
 	aio->bdelay = 0;
+	//memset(&aio->callback,0,sizeof(aio->callback));
 	candy_mutex_init(&aio->sync);
 }
 int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock){
@@ -31,6 +34,7 @@ int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock){
 		candy_mutex_unlock(&aio->sync);
 		return -1;
 	}
+	candy_worker_execute(aio->worker,candy_aio_cb_accept,aio);
 	aio->sock = sock;
 	aio->state = CANDY_AIO_CONNECTED;
 	candy_socket_set_noblock(sock,1);
@@ -117,7 +121,7 @@ int candy_aio_send(struct candy_aio* aio,void* buf,int sz){
 	}
 	return -1;
 }
-int candy_aio_close(struct candy_aio* aio){
+int candy_aio_destroy(struct candy_aio* aio){
 	CANDY_CHECK(candy_worker_in_loop(aio->worker) == 0);
 	candy_mutex_lock(&aio->sync);
 	if(aio->state != CANDY_AIO_CLOSED && aio->state != CANDY_AIO_READY){
@@ -131,18 +135,23 @@ int candy_aio_close(struct candy_aio* aio){
 	candy_mutex_destroy(&aio->sync);
 	return 0;
 }
-
+void candy_aio_cb_accept(void *arg){
+	struct candy_aio* aio = (struct candy_aio*)arg;
+	if(aio->callback.accept_fn){
+		aio->callback.accept_fn(aio->callback.arg,aio->handle);
+	}
+}
 void candy_aio_accept(struct candy_aio* aio){
 	candy_socket_t sock = candy_socket_accept(aio->sock);
-	struct candy_aio* tmp = candy_aio_pool_alloc_aio(aio->owner,candy_worker_pool_next(candy_worker_owner(aio->worker)));
+	struct candy_worker * next = candy_worker_pool_next(candy_worker_owner(aio->worker));
+	struct candy_aio* tmp = candy_aio_pool_alloc_aio(aio->owner,next);
 	if(!tmp){
 		CANDY_ERROR("candy_aio_accept FD %s","full");
 		candy_socket_close(sock);
 	}else{
+		tmp->callback.accept_fn = aio->callback.accept_fn;
+		tmp->callback.arg = aio->callback.arg;
 		candy_aio_set_socket(tmp,sock);
-		if(aio->callback.accept_fn){
-			aio->callback.accept_fn(aio->callback.arg,tmp->handle);
-		}
 	}
 }
 void candy_aio_regist_event(void* arg){
@@ -262,3 +271,6 @@ int candy_aio_set_nodelay(struct candy_aio* aio,int flag){
 	return -1;
 }
 
+void candy_aio_execute(struct candy_aio* aio,candy_worker_fn fn,void *arg){
+	candy_worker_execute(aio->worker,fn,arg);
+}

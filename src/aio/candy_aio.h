@@ -4,6 +4,7 @@
 #include "candy_socket.h"
 #include "../base/candy_timer.h"
 #include "../base/candy_thread.h"
+#include "candy_worker.h"
 #include "../candy.h"
 typedef void (*message_fn)(void*arg,void*buf,int len);
 typedef void (*close_fn)(void*arg,int code);
@@ -40,10 +41,10 @@ int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock);
 int candy_aio_listen(struct candy_aio* aio,const char* ip,int port);
 int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout);
 int candy_aio_send(struct candy_aio* aio,void* buf,int sz);
-int candy_aio_close(struct candy_aio* aio);
+int candy_aio_destroy(struct candy_aio* aio);
 int candy_aio_set_recvbuf_size(struct candy_aio* aio,int size);
 int candy_aio_set_sendbuf_size(struct candy_aio* aio,int size);
 int candy_aio_set_nodelay(struct candy_aio* aio,int flag);
-//void candy_aio_destroy(struct candy_aio* aio,int id,candy_socket_t sock);
+void candy_aio_execute(struct candy_aio* aio,candy_worker_fn fn,void *arg);
 
 #endif

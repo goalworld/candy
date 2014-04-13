@@ -12,7 +12,9 @@ void connect_fn(void* arg){
 	CANDY_INFO("candy_send rc:%d",rc);
 }
 void message_fn(void* arg,void* data,int len){
+
 	int sock = (int)arg;
+	//CANDY_INFO("message_fn%i",sock);
 	num_recv++;
 	char buf[] = "world";
 	candy_send(sock,buf,sizeof(buf));
@@ -55,10 +57,13 @@ int main(){
 		CANDY_INFO("candy_listen error%i",rc);
 		return -1;
 	}
+	CANDY_INFO("candy_listen ok port:%d",1922);
 	candy_set_callback(io,cb);
 	while(1){
-		CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
-		num_recv=0;
+		if(num_recv > 0){
+			CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
+			num_recv=0;
+		}
 		candy_sleep(1000);
 	}
 	return 0;

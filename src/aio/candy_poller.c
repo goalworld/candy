@@ -17,6 +17,7 @@ candy_poller_event_destroy(struct candy_poller_event* ptr){
 void 
 candy_poller_event_set_in(struct candy_poller_event* self){
 	if(self->event & CANDY_POLLER_IN){
+		CANDY_INFO("candy_poller_event_set_in exist %d",self->fd);
 		return;
 	}
 	candy_poller_set_in(self->poller,self);
@@ -36,6 +37,7 @@ candy_poller_event_is_set_out(struct candy_poller_event* self){
 void 
 candy_poller_event_set_out(struct candy_poller_event* self){
 	if(self->event & CANDY_POLLER_OUT){
+		CANDY_INFO("candy_poller_event_set_out exist %d",self->fd);
 		return;
 	}
 	candy_poller_set_out(self->poller,self);
