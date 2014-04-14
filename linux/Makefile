@@ -22,6 +22,7 @@ LIB_PATH = -L./build/
 all:$(BUILD_PATH)libcandy.so $(BUILD_PATH)test_server.exe $(BUILD_PATH)test_client.exe
 install:
 	cp $(BUILD_PATH)libcandy.so /usr/lib64/
+	cp $(SRC_PATH)candy.h $(SRC_PATH)base/candy_array.h $(SRC_PATH)base/candy_queue.h $(SRC_PATH)base/candy_cycle_buffer.h  /include
 clean:
 	rm -rf $(OBJ_PATH)*
 OBJS= 	$(OBJ_PATH)candy_context.o\

@@ -13,7 +13,7 @@ void candy_start(int num_thread){
 	if(g_inited) return;
 	g_inited = 1;
 	#if defined CANDY_HAVE_WINDOWS
-		WSADATA wsa={0};	
+		WSADATA wsa;	
 		WSAStartup(MAKEWORD(2,2),&wsa);
 	#endif
 	candy_context_init(&ctx,num_thread,10240);

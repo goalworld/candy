@@ -3,6 +3,6 @@
 
 #include "./candy_export.h"
 
-CANDY_EXPORT void candy_sleep(int ms);
+void candy_sleep(int ms);
 
 #endif

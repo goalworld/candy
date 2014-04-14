@@ -2,7 +2,7 @@
 #define CANDY_SOCKET_H_
 #if defined CANDY_HAVE_WINDOWS
 	#include "../base/candy_window.h"
-	typedef SOCKET candy_socket_t;
+	#define candy_socket_t SOCKET
 	#define CANDY_INVALID_SOCKET INVALID_SOCKET
 #else
 	#include <sys/socket.h>
@@ -11,7 +11,7 @@
 	#include <netdb.h>
 	#include <fcntl.h>
 	#include <netinet/tcp.h>
-	typedef int candy_socket_t;
+	#define candy_socket_t int
 	#define CANDY_INVALID_SOCKET -1
 #endif
 
