@@ -34,7 +34,8 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_worker_pool.o\
 		$(OBJ_PATH)candy_sleep.o\
 		$(OBJ_PATH)candy.o\
-		$(OBJ_PATH)candy_aio_pool.o
+		$(OBJ_PATH)candy_aio_pool.o\
+		$(OBJ_PATH)candy_cycle_buffer.o
 
 $(OBJ_PATH)candy.o : $(SRC_PATH)core/candy.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
@@ -43,6 +44,9 @@ $(OBJ_PATH)candy_context.o : $(SRC_PATH)core/candy_context.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_array.o : $(SRC_PATH)base/candy_array.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_cycle_buffer.o : $(SRC_PATH)base/candy_cycle_buffer.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_glock.o : $(SRC_PATH)base/candy_glock.c

@@ -1,4 +1,6 @@
 #include "./candy_cycle_buffer.h"
+#include <string.h>
+#include <stdlib.h>
 #define DEFALUT_BUF_SZ 1024
 static void _grow(struct candy_cycle_buffer* self,int size);
 void candy_cycle_buffer_init(struct candy_cycle_buffer* self){
