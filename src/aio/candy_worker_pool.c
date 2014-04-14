@@ -24,3 +24,4 @@ void candy_worker_pool_destroy(struct candy_worker_pool* pool){
 	}
 	free(pool->workers );
 }
+

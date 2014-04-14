@@ -74,3 +74,4 @@ void candy_close_and_free_aio(void* arg){
 	candy_aio_destroy(aio);
 	free(aio);
 }
+
