@@ -42,8 +42,7 @@ void candy_poller_remove(struct candy_poller* self,struct candy_poller_event* ev
 void candy_poller_set_in(struct candy_poller* self,struct candy_poller_event* ev){
 	struct epoll_event ep_ev;
 	ep_ev.data.ptr = ev;
-	ep_ev.events  = 0;
-	ep_ev.events |= | POLLERR | POLLNVAL | POLLHUP;
+	ep_ev.events =  POLLERR | POLLNVAL | POLLHUP;
 	if(ev->event & CANDY_POLLER_OUT){
 		ep_ev.events |= EPOLLOUT;
 	}
