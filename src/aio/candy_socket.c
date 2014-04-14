@@ -68,6 +68,18 @@ candy_socket_t candy_socket_connect_async(const char* ip,int port){
 	}
 	return sock;
 }
+candy_socket_t candy_socket_connect_sync(const char* ip,int port){
+	candy_socket_t sock = socket(AF_INET, SOCK_STREAM,0);
+	if(sock < 0){
+	 	CANDY_WARN(" %s:%d socket create failed%d",ip,port,CANDY_GET_ERRNO);
+		return CANDY_INVALID_SOCKET;
+	}
+	if( candy_do_connect(sock,ip,port) != 0){
+		candy_socket_close(sock);
+		return CANDY_INVALID_SOCKET;
+	}
+	return sock;
+}
 candy_socket_t candy_socket_listen(const char* ip,int port){
 	candy_socket_t sock = socket(AF_INET,SOCK_STREAM,0);
 	 if(sock < 0){

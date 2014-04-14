@@ -16,6 +16,7 @@
 #endif
 
 candy_socket_t candy_socket_connect_async(const char* ip,int port);
+candy_socket_t candy_socket_connect_sync(const char* ip,int port);
 candy_socket_t candy_socket_listen(const char* ip,int port);
 candy_socket_t candy_socket_accept(candy_socket_t server);
 int candy_socket_write(candy_socket_t sock,void* buf,int sz);

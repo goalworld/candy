@@ -40,7 +40,11 @@ CANDY_EXPORT int candy_close(int s);
 CANDY_EXPORT int candy_set_recvbuf_size(int s,int size);
 CANDY_EXPORT int candy_set_sendbuf_size(int s,int size);
 CANDY_EXPORT int candy_set_nodelay(int s,int flag);
+
+
 #ifdef __cplusplus
 }
 #endif
+
 #endif
+
