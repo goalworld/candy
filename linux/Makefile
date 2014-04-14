@@ -82,7 +82,7 @@ $(OBJ_PATH)candy_aio_pool.o : $(SRC_PATH)aio/candy_aio_pool.c
 $(OBJ_PATH)candy_poller.o : $(SRC_PATH)aio/candy_poller.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_socket.o : $(SRC_PATH)aio/candy_socket.c
+$(OBJ_PATH)candy_socket.o : $(SRC_PATH)base/candy_socket.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_worker.o : $(SRC_PATH)aio/candy_worker.c
