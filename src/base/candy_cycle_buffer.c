@@ -89,3 +89,93 @@ void _grow(struct candy_cycle_buffer* self,int size){
 		self->has_data_ = 1;
 	}
 }
+
+
+int candy_cycle_buffer_write_from_reader(struct candy_cycle_buffer* self,candy_io_fn reader,void *arg){
+	int all_read = 0;
+	int nr = 0;
+	while(1){
+		if(candy_cycle_buffer_free_size(self) < 1024){
+			_grow(self,1024);
+		}
+		if(self->start_ > self->end_){//------end<---->start----
+			int buf_sz = self->start_ - self->end_;
+			nr = reader(arg,self->data_+self->end_,buf_sz);
+			if(nr > 0){
+				all_read +=nr;
+				self->end_ += nr;
+				if(buf_sz == nr){
+					continue;
+				}
+			}
+			break;
+		}else{//start------end<---------->
+			int buf_sz = self->size_ - self->end_;
+			nr = reader(arg,self->data_ + self->end_,buf_sz);
+			if(!self->has_data_ && self->start_ == self->end_ && nr > 0){
+				self->has_data_ = 1;
+			}
+			if(nr == buf_sz){
+				all_read += nr;
+				self->end_ = 0;
+				continue;
+			}else{
+				if(nr > 0){
+					self->end_ += nr;
+					all_read+=nr;
+				}
+				break;
+				//LOG(INFO) << "START:"<<self->start_<<"END:"<<self->end_;
+				
+			}
+		}
+	}
+	if(all_read == 0){
+		return nr;
+	}
+	return all_read;
+}
+int candy_cycle_buffer_read_to_writer(struct candy_cycle_buffer* self,candy_io_fn writer,void *arg){
+	if(!self->has_data_){
+		return 0;
+	}
+	int nw = 0;
+	if(self->start_ >= self->end_){ //== is full 
+		int first_sz = self->size_ - self->start_;
+		nw = writer(arg,self->data_+self->start_,first_sz);
+		if(nw < first_sz){
+			return nw;
+		}else{
+			self->start_ = 0;
+			if(self->end_ ==0){
+				self->has_data_ = 0;
+				return first_sz;
+			}
+			int second_sz = self->end_;
+			nw =  writer(arg,self->data_,second_sz);
+			if(nw > 0){
+				self->start_ = nw;
+				if(self->start_ == self->end_){
+					self->start_ = 0;
+					self->end_ = 0;
+					self->has_data_ = 0;
+				}
+				return nw+first_sz;
+			}else{
+				return first_sz;
+			}
+		}
+	}else{
+		int sz = self->end_ - self->start_;
+		nw = writer(arg,self->data_+self->start_,sz);
+		if(nw > 0){
+			self->start_ += nw;
+			if(self->start_ == self->end_){
+				self->start_ = 0;
+				self->end_ = 0;
+				self->has_data_ = 0;
+			}
+		}
+		return nw;
+	}
+}
