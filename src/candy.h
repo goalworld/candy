@@ -5,6 +5,11 @@ extern "C" {
 #endif
 
 #include "./base/candy_export.h"
+#include "./base/candy_array.h"
+#include "./base/candy_queue.h"
+#include "./base/candy_cycle_buffer.h"
+#include "./base/candy_thread.h"
+
 
 #define CANDY_HAUSNUMERO 156384712
 
