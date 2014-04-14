@@ -2,6 +2,7 @@
 #include "./candy_aio.h"
 #include "./candy_worker.h"
 #include <stdlib.h>
+#include <memory.h>
 #include "../base/candy_log.h"
 static void candy_close_and_free_aio(void* arg);
 void candy_aio_pool_init(struct candy_aio_pool* self,int max_aio){
