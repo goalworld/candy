@@ -1,11 +1,15 @@
 #include "candy_cycle_buffer.h"
-
+#define DEFALUT_BUF_SZ 1024
 static void _grow(struct candy_cycle_buffer* self,int size);
 void candy_cycle_buffer_init(struct candy_cycle_buffer* self){
-	
+	self->data_ = (unsigned char*)malloc(DEFALUT_BUF_SZ);
+	self->start_ = 0;
+	self->end_ = 0;
+	self->size_ = DEFALUT_BUF_SZ;
+	self->has_data_ = 0;
 }
 void candy_cycle_buffer_destroy(struct candy_cycle_buffer* self){
-	
+	free(self->data_);
 }
 int candy_cycle_buffer_read(struct candy_cycle_buffer* self,void *buf,int sz){
 	if(!self->has_data_){
