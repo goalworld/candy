@@ -21,11 +21,11 @@ add_subdirectory (./src)
 
 set (all_tests "")
 
-macro (add_libnanomsg_test NAME)
+macro (add_candy_test NAME)
     list (APPEND all_tests ${NAME})
     add_executable (${NAME} tests/${NAME}.c)
     target_link_libraries (${NAME} nanomsg)
     add_test (${NAME} ${NAME})
-endmacro (add_libnanomsg_test)
+endmacro (add_candy_test)
 
 
