@@ -43,7 +43,7 @@ void accept_fn(void* arg,int s){
 
 int main(){
 	candy_start(4);
-	int io = candy_socket();
+	int io = candy_aio();
 	if(io < 0){
 		CANDY_INFO("candy_socket error%i",io);
 		return -1;

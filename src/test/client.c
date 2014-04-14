@@ -67,7 +67,7 @@ int main(int argc,char* argv[]){
 }
 
 int start_client(){
-	int io = candy_socket();
+	int io = candy_aio();
 	if(io < 0){
 		CANDY_INFO("error%i",io);
 		return -1;

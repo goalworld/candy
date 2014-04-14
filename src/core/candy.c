@@ -29,7 +29,7 @@ void candy_stop(){
 	candy_context_destroy(&ctx);
 	candy_glock_unlock();
 }
-int candy_socket(){
+int candy_aio(){
 	ASSERT_STARTED
 	return candy_context_create_aio(&ctx);
 }

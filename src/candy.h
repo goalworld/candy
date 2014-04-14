@@ -9,7 +9,7 @@ extern "C" {
 #include "./base/candy_queue.h"
 #include "./base/candy_cycle_buffer.h"
 #include "./base/candy_thread.h"
-
+#include "./base/candy_socket.h"
 
 #define CANDY_HAUSNUMERO 156384712
 
@@ -30,7 +30,7 @@ struct candy_callback{
 CANDY_EXPORT void candy_start(int nt);
 CANDY_EXPORT void candy_stop();
 
-CANDY_EXPORT int candy_socket();
+CANDY_EXPORT int candy_aio();
 CANDY_EXPORT int candy_set_callback(int s,struct candy_callback cb);
 CANDY_EXPORT int candy_connect(int s,const char* ip,int port,int timeout);
 CANDY_EXPORT int candy_listen(int s,const char* ip,int port);
