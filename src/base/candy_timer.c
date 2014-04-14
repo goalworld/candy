@@ -19,7 +19,7 @@ int candy_timer_execute(struct candy_timer* timer){
 	int size = candy_array_size(&timer->arr);
 	struct candy_timer_event* ev;
 	timer->cur = 0;
-	int min = 500;
+	clock_t min = 500;
 	while(timer->cur<size){
 		clock_t now = clock();
 		candy_array_at(&timer->arr,timer->cur,&ev);

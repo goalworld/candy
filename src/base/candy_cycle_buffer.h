@@ -6,7 +6,7 @@ struct candy_cycle_buffer{
 	int start_;
 	int end_;
 	int size_;
-	bool has_data_;
+	int has_data_;
 };
 
 CANDY_EXPORT void candy_cycle_buffer_init(struct candy_cycle_buffer* self);

@@ -1,6 +1,7 @@
 #ifndef CANDY_EXPORT_H_
 #define CANDY_EXPORT_H_
-
+#define CANDY_EXPORT
+/*
 #if defined _WIN32
 #   if defined CANDY_EXPORTS
 #       define CANDY_EXPORT __declspec(dllexport)
@@ -17,5 +18,5 @@
 #       define CANDY_EXPORT
 #   endif
 #endif
-
+*/
 #endif

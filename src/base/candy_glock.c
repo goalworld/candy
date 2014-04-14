@@ -1,6 +1,6 @@
 
 
-#include "candy_glock.h"
+#include "./candy_glock.h"
 
 #if defined CANDY_HAVE_WINDOWS
 

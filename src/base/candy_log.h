@@ -15,9 +15,9 @@
 
 extern int g_candy_log_level;
 
-#define CANDY_LOG(pre,level,fmt,...)\
+#define CANDY_LOG(pre,lvl,fmt,...)\
 		do{\
-			if(level <= g_candy_log_level){\
+			if(lvl <= g_candy_log_level){\
 				candy_log(pre,__FILE__,__LINE__,fmt,__VA_ARGS__);	\
 			}						      \
 		}while(0)

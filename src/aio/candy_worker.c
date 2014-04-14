@@ -1,4 +1,4 @@
-#include "candy_worker.h"
+#include "./candy_worker.h"
 #include "../base/candy_log.h"
 
 struct candy_task{

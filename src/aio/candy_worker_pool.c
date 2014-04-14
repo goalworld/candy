@@ -1,6 +1,6 @@
-#include "candy_worker_pool.h"
+#include "./candy_worker_pool.h"
 #include <stdlib.h>
-#include "candy_worker.h"
+#include "./candy_worker.h"
 
 void candy_worker_pool_init(struct candy_worker_pool* pool,int num){
 	int i;
