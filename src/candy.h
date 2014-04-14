@@ -4,6 +4,8 @@
 extern "C" {
 #endif
 
+#include "./base/candy_export.h"
+
 #define CANDY_HAUSNUMERO 156384712
 
 #define CANDY_EUNSATRT (CANDY_HAUSNUMERO+1)
@@ -20,19 +22,19 @@ struct candy_callback{
 	void (*accept_fn)(void* arg,int s);
 	void *arg;
 };
-void candy_start(int nt);
-void candy_stop();
+CANDY_EXPORT void candy_start(int nt);
+CANDY_EXPORT void candy_stop();
 
-int candy_socket();
-int candy_set_callback(int s,struct candy_callback cb);
-int candy_connect(int s,const char* ip,int port,int timeout);
-int candy_listen(int s,const char* ip,int port);
-int candy_send(int s,void* buf,int len);
-int candy_close(int s);
+CANDY_EXPORT int candy_socket();
+CANDY_EXPORT int candy_set_callback(int s,struct candy_callback cb);
+CANDY_EXPORT int candy_connect(int s,const char* ip,int port,int timeout);
+CANDY_EXPORT int candy_listen(int s,const char* ip,int port);
+CANDY_EXPORT int candy_send(int s,void* buf,int len);
+CANDY_EXPORT int candy_close(int s);
 
-int candy_set_recvbuf_size(int s,int size);
-int candy_set_sendbuf_size(int s,int size);
-int candy_set_nodelay(int s,int flag);
+CANDY_EXPORT int candy_set_recvbuf_size(int s,int size);
+CANDY_EXPORT int candy_set_sendbuf_size(int s,int size);
+CANDY_EXPORT int candy_set_nodelay(int s,int flag);
 #ifdef __cplusplus
 }
 #endif

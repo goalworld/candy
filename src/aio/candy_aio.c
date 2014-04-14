@@ -34,7 +34,6 @@ int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock){
 		candy_mutex_unlock(&aio->sync);
 		return -1;
 	}
-	candy_worker_execute(aio->worker,candy_aio_cb_accept,aio);
 	aio->sock = sock;
 	aio->state = CANDY_AIO_CONNECTED;
 	candy_socket_set_noblock(sock,1);
@@ -152,6 +151,7 @@ void candy_aio_accept(struct candy_aio* aio){
 		tmp->callback.accept_fn = aio->callback.accept_fn;
 		tmp->callback.arg = aio->callback.arg;
 		candy_aio_set_socket(tmp,sock);
+		candy_worker_execute(tmp->worker,candy_aio_cb_accept,tmp);
 	}
 }
 void candy_aio_regist_event(void* arg){
