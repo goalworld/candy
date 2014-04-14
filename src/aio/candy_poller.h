@@ -1,7 +1,7 @@
 #ifndef CANDY_POLLER_H_
 #define CANDY_POLLER_H_
 
-#include "candy_socket.h"
+#include "../base/candy_socket.h"
 
 #define CANDY_POLLER_IN 1
 #define CANDY_POLLER_OUT 2
