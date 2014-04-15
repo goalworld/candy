@@ -4,7 +4,10 @@
 #include <stdlib.h>
 #include <memory.h>
 #include "../base/candy_log.h"
+
 static void candy_close_and_free_aio(void* arg);
+static void candy_aio_pool_do_destroy(struct candy_aio* aio);
+
 void candy_aio_pool_init(struct candy_aio_pool* self,int max_aio){
 	int i;
 	candy_mutex_init(&self->mtx);
@@ -22,7 +25,7 @@ void candy_aio_pool_destroy(struct candy_aio_pool* self){
 	for(i=0;i<self->max_aio;i++){
 		struct candy_aio* aio = self->aio_map[i];
 		if(aio){
-			candy_aio_execute(aio,candy_close_and_free_aio,(void*)aio);
+			candy_aio_pool_do_destroy(aio);
 		}
 	}
 	free(self->aio_map);
@@ -64,14 +67,18 @@ int candy_aio_pool_free(struct candy_aio_pool* self,int handle){
 	self->num_aio--;
 	self->unused[self->max_aio-self->num_aio-1] = handle;
 	self->aio_map[handle] = NULL;
-	candy_aio_execute(aio,candy_close_and_free_aio,(void*)aio);
+	candy_aio_pool_do_destroy(aio);
 	candy_mutex_unlock(&self->mtx);
 	return 0;
 }
 
+void candy_aio_pool_do_destroy(struct candy_aio* aio){
+	candy_aio_shutdown(aio);
+	candy_worker_queue_execute(candy_aio_get_worker(aio),candy_close_and_free_aio,(void*)aio);
+}
+
 void candy_close_and_free_aio(void* arg){
 	struct candy_aio* aio = (struct candy_aio*)arg;
-	CANDY_ERROR("candy_close_and_free_aio handle:%d",candy_aio_get_handle(aio));
 	candy_aio_destroy(aio);
 	free(aio);
 }

@@ -4,6 +4,9 @@
 	#include "../base/candy_window.h"
 	#define candy_socket_t SOCKET
 	#define CANDY_INVALID_SOCKET INVALID_SOCKET
+	#define CANDY_SHUTDOWN_RD SD_RECEIVE 
+	#define CANDY_SHUTDOWN_WR SD_SEND
+	#define CANDY_SHUTDOWN_RDWR SD_BOTH
 #else
 	#include <sys/socket.h>
 	#include <unistd.h>
@@ -13,6 +16,9 @@
 	#include <netinet/tcp.h>
 	#define candy_socket_t int
 	#define CANDY_INVALID_SOCKET -1
+	#define CANDY_SHUTDOWN_RD SHUT_RD 
+	#define CANDY_SHUTDOWN_WR SHUT_WR
+	#define CANDY_SHUTDOWN_RDWR SHUT_RDWR
 #endif
 
 candy_socket_t candy_socket_connect_async(const char* ip,int port);
@@ -27,7 +33,7 @@ int candy_socket_writev(candy_socket_t sock,const struct iovec *iov, int cnt);
 int candy_socket_readv(candy_socket_t sock,const struct iovec *iov, int cnt);
 #endif
 
-int candy_socket_shutdown(candy_socket_t sock,int which);//SHUT_RD SHUT_WR SHUT_RDWR
+int candy_socket_shutdown(candy_socket_t sock,int which);
 int candy_socket_close(candy_socket_t sock);
 
 int candy_socket_set_keep_alive(candy_socket_t sock,int flag);

@@ -13,6 +13,7 @@ enum{
 	CANDY_AIO_LISTENED,
 	CANDY_AIO_CONNECTING,
 	CANDY_AIO_CONNECTED,
+	CANDY_AIO_SHUTDOWN,
 	CANDY_AIO_ERRORED,
 	CANDY_AIO_CLOSED,
 };
@@ -41,10 +42,10 @@ int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock);
 int candy_aio_listen(struct candy_aio* aio,const char* ip,int port);
 int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout);
 int candy_aio_send(struct candy_aio* aio,void* buf,int sz);
+void candy_aio_shutdown(struct candy_aio* aio);
 int candy_aio_destroy(struct candy_aio* aio);
 int candy_aio_set_recvbuf_size(struct candy_aio* aio,int size);
 int candy_aio_set_sendbuf_size(struct candy_aio* aio,int size);
 int candy_aio_set_nodelay(struct candy_aio* aio,int flag);
-void candy_aio_execute(struct candy_aio* aio,candy_worker_fn fn,void *arg);
 
 #endif

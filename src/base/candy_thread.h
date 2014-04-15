@@ -40,7 +40,7 @@ CANDY_EXPORT thread_id candy_thread_self();
 CANDY_EXPORT thread_id candy_thread_id(struct candy_thread*);
 CANDY_EXPORT void candy_thread_stop(struct candy_thread*);
 
-CANDY_EXPORT  void candy_mutex_init(struct candy_mutex*);
+CANDY_EXPORT void candy_mutex_init(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_lock(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_unlock(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_destroy(struct candy_mutex*);

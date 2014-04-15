@@ -27,5 +27,6 @@ void candy_worker_remove_event(struct candy_worker*,struct candy_poller_event*);
 void candy_worker_add_timer(struct candy_worker*,struct candy_timer_event*);
 void candy_worker_remove_timer(struct candy_worker*,struct candy_timer_event*);
 void candy_worker_execute(struct candy_worker*,candy_worker_fn fn,void *arg);
+void candy_worker_queue_execute(struct candy_worker*,candy_worker_fn fn,void *arg);
 int candy_worker_in_loop(struct candy_worker*);
 #endif

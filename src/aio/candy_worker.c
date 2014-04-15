@@ -71,7 +71,14 @@ void candy_worker_execute(struct candy_worker* self,candy_worker_fn fn,void *arg
 		candy_mutex_unlock(&self->mutex);
 	}
 }
-
+void candy_worker_queue_execute(struct candy_worker* self,candy_worker_fn fn,void *arg){
+	candy_mutex_lock(&self->mutex);
+	struct candy_task task;
+	task.fn = fn;
+	task.arg = arg;
+	candy_queue_push(&self->queue,&task);
+	candy_mutex_unlock(&self->mutex);
+}
 int candy_worker_in_loop(struct candy_worker* self){
 	return (candy_thread_self() == candy_thread_id(&self->thread))?0:-1;
 }

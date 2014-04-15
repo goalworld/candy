@@ -120,6 +120,14 @@ int candy_aio_send(struct candy_aio* aio,void* buf,int sz){
 	}
 	return -1;
 }
+void candy_aio_shutdown(struct candy_aio* aio){
+	candy_mutex_lock(&aio->sync);
+	if(aio->state == CANDY_AIO_CONNECTED){
+		candy_socket_shutdown(aio->sock,CANDY_SHUTDOWN_RDWR);
+		aio->state = CANDY_AIO_SHUTDOWN;
+	}
+	candy_mutex_unlock(&aio->sync);
+}
 int candy_aio_destroy(struct candy_aio* aio){
 	CANDY_CHECK(candy_worker_in_loop(aio->worker) == 0);
 	candy_mutex_lock(&aio->sync);
@@ -222,6 +230,9 @@ void candy_aio_read(struct candy_aio* aio){
 void candy_aio_handle_error(struct candy_aio* aio,int code){
 	candy_poller_event_unset_out(&aio->event);
 	candy_poller_event_unset_in(&aio->event);
+	if(aio->state == CANDY_AIO_CONNECTED){
+		candy_socket_shutdown(aio->sock,CANDY_SHUTDOWN_RDWR);
+	}
 	aio->state = CANDY_AIO_ERRORED;
 	if(aio->callback.close_fn){
 		aio->callback.close_fn(aio->callback.arg,code);
@@ -269,8 +280,4 @@ int candy_aio_set_nodelay(struct candy_aio* aio,int flag){
 		}
 	}
 	return -1;
-}
-
-void candy_aio_execute(struct candy_aio* aio,candy_worker_fn fn,void *arg){
-	candy_worker_execute(aio->worker,fn,arg);
 }
