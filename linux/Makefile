@@ -40,8 +40,12 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_sleep.o\
 		$(OBJ_PATH)candy.o\
 		$(OBJ_PATH)candy_aio_pool.o\
-		$(OBJ_PATH)candy_cycle_buffer.o
-		
+		$(OBJ_PATH)candy_cycle_buffer.o\
+		$(OBJ_PATH)candy_thread_pool.o
+
+$(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+			
 $(OBJ_PATH)candy_cycle_buffer.o : $(SRC_PATH)base/candy_cycle_buffer.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 

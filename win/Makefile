@@ -35,7 +35,9 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_sleep.o\
 		$(OBJ_PATH)candy.o\
 		$(OBJ_PATH)candy_aio_pool.o\
-		$(OBJ_PATH)candy_cycle_buffer.o
+		$(OBJ_PATH)candy_cycle_buffer.o\
+		$(OBJ_PATH)candy_thread_pool.o
+		
 
 $(OBJ_PATH)candy.o : $(SRC_PATH)core/candy.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
@@ -62,6 +64,9 @@ $(OBJ_PATH)candy_queue.o : $(SRC_PATH)base/candy_queue.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_thread.o : $(SRC_PATH)base/candy_thread.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_timer.o : $(SRC_PATH)base/candy_timer.c
