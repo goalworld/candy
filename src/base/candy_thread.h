@@ -19,6 +19,10 @@ typedef void (*candy_thread_fn) (void*);
 	struct candy_mutex{
 		CRITICAL_SECTION cs;
 	};
+
+	struct candy_cond{
+		HANDLE hevent;
+	};
 #else
 	#include <pthread.h>
 	typedef pthread_t thread_id;
@@ -33,6 +37,11 @@ typedef void (*candy_thread_fn) (void*);
 		pthread_mutex_t mtx;
 	};
 
+	struct candy_cond{
+		pthread_mutex_t mtx;
+		pthread_cond_t cond;
+		int notifyd;
+	};
 #endif
 
 CANDY_EXPORT void candy_thread_start(struct candy_thread*,candy_thread_fn fn,void *arg);
@@ -44,5 +53,10 @@ CANDY_EXPORT void candy_mutex_init(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_lock(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_unlock(struct candy_mutex*);
 CANDY_EXPORT void candy_mutex_destroy(struct candy_mutex*);
+
+CANDY_EXPORT void candy_cond_init(struct candy_cond*);
+CANDY_EXPORT void candy_cond_wait(struct candy_cond*);
+CANDY_EXPORT void candy_cond_notify(struct candy_cond*);
+CANDY_EXPORT void candy_cond_destroy(struct candy_cond*);
 
 #endif

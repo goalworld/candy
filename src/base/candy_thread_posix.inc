@@ -42,3 +42,26 @@ void candy_mutex_destroy(struct candy_mutex* mtx){
 	int rc = pthread_mutex_destroy(&mtx->mtx);
     CANDY_CHECK(rc == 0);
 }
+
+
+void candy_cond_init(struct candy_cond* cond){
+    CANDY_CHECK(pthread_cond_init(&cond->cond,NULL) == 0);
+    CANDY_CHECK(pthread_mutex_init(&cond->mtx,NULL) == 0);
+}
+void candy_cond_wait(struct candy_cond* cond){
+    CANDY_CHECK(pthread_mutex_lock(&cond->mtx) == 0);
+    if(!this->notifyd){
+        pthread_cond_wait(&cond->cond,&cond->mtx);
+    }
+    CANDY_CHECK(pthread_mutex_unlock(&cond->mtx) == 0);
+}
+void candy_cond_notify(struct candy_cond* cond){
+    CANDY_CHECK(pthread_mutex_lock(&cond->mtx)== 0);
+    cond->notifyd = 1;
+    pthread_cond_broadcast(&cond->cond);
+    CANDY_CHECK(pthread_mutex_unlock(&cond->mtx)== 0);
+}
+void candy_cond_destroy(struct candy_cond* cond){
+    pthread_cond_destroy(&cond->cond);
+    pthread_mutex_destroy(&cond->mtx);
+}

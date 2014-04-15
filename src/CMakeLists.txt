@@ -36,9 +36,7 @@ set (CANDY_SOURCES
     base/candy_sleep.c
     base/candy_thread.h
     base/candy_thread.c
-    base/candy_thread_posix.h
     base/candy_thread_posix.inc
-    base/candy_thread_win.h
     base/candy_thread_win.inc
     base/candy_window.h
     base/candy_timer.h

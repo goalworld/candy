@@ -43,3 +43,17 @@ void candy_mutex_unlock(struct candy_mutex* mtx){
 void candy_mutex_destroy(struct candy_mutex* mtx){
 	DeleteCriticalSection(&mtx->cs);
 }
+
+void candy_cond_init(struct candy_cond* cond){
+    cond->hevent = CreateEvent(NULL,true,false,NULL);
+}
+void candy_cond_wait(struct candy_cond* cond){
+    WaitForSingleObject(cond->hevent,INFINITE);
+    ResetEvent(cond->hevent);
+}
+void candy_cond_notify(struct candy_cond* cond){
+    SetEvent(cond->hevent);
+}
+void candy_cond_destroy(struct candy_cond* cond){
+    CloseHandle(cond->hevent);
+}

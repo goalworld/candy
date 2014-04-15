@@ -6,8 +6,7 @@
 #include "../base/candy_thread.h"
 #include "candy_worker.h"
 #include "../candy.h"
-typedef void (*message_fn)(void*arg,void*buf,int len);
-typedef void (*close_fn)(void*arg,int code);
+
 enum{
 	CANDY_AIO_READY=1,
 	CANDY_AIO_LISTENED,
@@ -33,6 +32,7 @@ struct candy_aio{
 	int snd_size;
 	int bdelay;
 };
+
 #define candy_aio_get_worker(aio) (aio)->worker
 #define candy_aio_get_handle(aio) (aio)->handle
 #define candy_aio_set_callback(aio,cb) do{ (aio)->callback = cb; }while(0)
