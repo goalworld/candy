@@ -3,7 +3,11 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#if defined _WIN32
+	#if !defined CANDY_HAVE_WINDOWS
+		#define CANDY_HAVE_WINDOWS
+	#endif
+#endif
 #include "./base/candy_net_int.h"
 #include "./aio/candy_net.h"
 #include "./base/candy_error.h"
@@ -11,10 +15,10 @@ extern "C" {
 #include "./base/candy_queue.h"
 #include "./base/candy_buffer.h"
 #include "./base/candy_cycle_buffer.h"
-
-/*#include "./base/candy_thread.h"
+#include "./base/candy_thread.h"
 #include "./base/candy_thread_pool.h"
-#include "./base/candy_socket.h"*/
+#include "./base/candy_socket.h"
+
 #ifdef __cplusplus
 }
 #endif
