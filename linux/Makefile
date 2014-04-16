@@ -12,6 +12,8 @@ OBJ_PATH = $(BUILD_PATH)obj/
 
 SRC_PATH = ../src/
 
+TEST_PATH = ../examples/
+
 SHARED = -fPIC -shared
 
 LIB_PATH = -L./build/
@@ -19,7 +21,7 @@ LIB_PATH = -L./build/
  # 则产生的代码中，没有绝对地址，全部使用相对地址，故而代码可以被加载器加载到内存的任意
 #  位置，都可以正确的执行。这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的。
 
-all:$(BUILD_PATH)libcandy.so $(BUILD_PATH)test_server.exe $(BUILD_PATH)test_client.exe
+all:$(BUILD_PATH)libcandy.so $(BUILD_PATH)echo_server $(BUILD_PATH)echo_client
 install:
 	cp $(BUILD_PATH)libcandy.so /usr/lib64/
 	cp $(SRC_PATH)candy.h $(SRC_PATH)base/candy_array.h $(SRC_PATH)base/candy_queue.h $(SRC_PATH)base/candy_cycle_buffer.h  /include
@@ -103,15 +105,15 @@ $(OBJ_PATH)candy_worker.o : $(SRC_PATH)aio/candy_worker.c
 $(OBJ_PATH)candy_worker_pool.o : $(SRC_PATH)aio/candy_worker_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)server.o : $(SRC_PATH)test/server.c
+$(OBJ_PATH)echo_server.o : $(TEST_PATH)/echo_server.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)client.o : $(SRC_PATH)test/client.c
+$(OBJ_PATH)echo_client.o : $(TEST_PATH)/echo_client.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(BUILD_PATH)test_server.exe: $(OBJ_PATH)server.o
+$(BUILD_PATH)echo_server: $(OBJ_PATH)echo_server.o
 	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH) -Wl,-rpath,$(BUILD_PATH)
-$(BUILD_PATH)test_client.exe: $(OBJ_PATH)client.o
+$(BUILD_PATH)echo_client: $(OBJ_PATH)echo_client.o
 	$(CC) $(INCLUDE_PATH) $(CFLAGS)  -o $@  $^ -lpthread -lcandy $(LIB_PATH) -Wl,-rpath,$(BUILD_PATH)
 $(BUILD_PATH)libcandy.so:$(OBJS)
 	$(CC) $(CFLAGS) $(INC_DIR) $(SHARED) -o $@ $^   -lpthread
