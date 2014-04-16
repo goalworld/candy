@@ -1,9 +1,9 @@
 #ifndef CANDY_WORKER_H_
 #define CANDY_WORKER_H_
 
-#include "../base/candy_thread.h"
-#include "../base/candy_queue.h"
-#include "../base/candy_timer.h"
+#include "candy/candy_thread.h"
+#include "candy/candy_queue.h"
+#include "candy_timer.h"
 #include "candy_poller.h"
 
 typedef void(*candy_worker_fn)(void* arg);
@@ -12,12 +12,11 @@ struct candy_worker{
 	struct candy_worker_pool* owner;
 	struct candy_poller poller;
 	struct candy_timer timer;
-	struct candy_thread thread;
+	candy_thread_t thread;
 	struct candy_queue queue;
-	struct candy_mutex mutex;
+	candy_mutex_t mutex;
 	struct candy_poller_event event;
 	int stop;
-	thread_id id;
 };
 #define candy_worker_owner(ptr) (ptr)->owner
 void candy_worker_init(struct candy_worker*,struct candy_worker_pool*);

@@ -1,7 +1,6 @@
 
 #include "candy_poller.h"
-#include "../base/candy_log.h"
-#include "../base/candy_error.h"
+#include "candy/candy_log.h"
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>

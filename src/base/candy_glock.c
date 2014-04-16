@@ -29,7 +29,7 @@ void candy_glock_unlock (void)
 
 #else
 
-#include "candy_log.h"
+#include "candy/candy_log.h"
 #include <pthread.h>
 
 static pthread_mutex_t candy_glock_mutex = PTHREAD_MUTEX_INITIALIZER;

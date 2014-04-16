@@ -1,6 +1,6 @@
-#include "../candy.h"
-#include "../base/candy_log.h"
-#include "../base/candy_sleep.h"
+#include "candy/candy.h"
+#include "candy/candy_log.h"
+#include "candy/candy_sleep.h"
 #include <stdlib.h>
 #include <memory.h>
 #define MAX_SECOND 1000000

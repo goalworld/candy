@@ -1,6 +1,6 @@
 
 #include "../base/candy_window.h"
-#include "../base/candy_array.h"
+#include "candy/candy_array.h"
 struct candy_poller{
 	fd_set rd_set;
 	fd_set wr_set;

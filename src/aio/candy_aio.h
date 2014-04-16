@@ -1,11 +1,11 @@
 #ifndef CANDY_AIO_H_
 #define CANDY_AIO_H_
 #include "candy_poller.h"
-#include "../base/candy_socket.h"
-#include "../base/candy_timer.h"
-#include "../base/candy_thread.h"
+#include "candy_socket.h"
+#include "candy_timer.h"
+#include "candy/candy_thread.h"
 #include "candy_worker.h"
-#include "../candy.h"
+#include "candy/candy.h"
 
 enum{
 	CANDY_AIO_READY=1,
@@ -25,7 +25,7 @@ struct candy_aio{
 	struct candy_poller_event event;
 	candy_socket_t sock;
 	int state;//CANDY_CONNECTION_CLOSED
-	struct candy_mutex sync;
+	candy_mutex_t sync;
 	struct candy_callback callback;
 	int handle;
 	int is_close;

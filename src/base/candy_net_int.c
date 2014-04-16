@@ -1,4 +1,4 @@
-#include "candy_net_int.h"
+#include "candy/candy_net_int.h"
 
 #if defined CANDY_HAVE_WINDOWS
 	#include "candy_window.h"

@@ -1,5 +1,5 @@
 #include "./candy_worker.h"
-#include "../base/candy_log.h"
+#include "candy/candy_log.h"
 
 struct candy_task{
 	candy_worker_fn fn;
@@ -20,9 +20,9 @@ static void candy_worker_run_queue(void *arg){
 	struct candy_task task;
 	int rc;
 	while(1){
-		candy_mutex_lock(&self->mutex);
+		candy_mutex_lock(self->mutex);
 		rc = candy_queue_pop(&self->queue,&task);
-		candy_mutex_unlock(&self->mutex);
+		candy_mutex_unlock(self->mutex);
 		if(rc != 0) break;
 		task.fn(task.arg);
 	}
@@ -43,8 +43,8 @@ void candy_worker_destroy(struct candy_worker* self){
 	self->stop = 1;
 	//candy_poller_remove(&self->poller,&self->event);
 	candy_poller_destroy(&self->poller);
-	candy_thread_stop(&self->thread);
-	candy_mutex_destroy(&self->mutex);
+	candy_thread_stop(self->thread);
+	candy_mutex_destroy(self->mutex);
 }
 
 void candy_worker_add_event(struct candy_worker* self,struct candy_poller_event* ev){
@@ -60,25 +60,25 @@ void candy_worker_remove_timer(struct candy_worker* self,struct candy_timer_even
 	candy_timer_remove(&self->timer,ev);
 }
 void candy_worker_execute(struct candy_worker* self,candy_worker_fn fn,void *arg){
-	if(candy_thread_self() == candy_thread_id(&self->thread)){
+	if(candy_thread_is_in(self->thread) == 0){
 		fn(arg);
 	}else{
-		candy_mutex_lock(&self->mutex);
+		candy_mutex_lock(self->mutex);
 		struct candy_task task;
 		task.fn = fn;
 		task.arg = arg;
 		candy_queue_push(&self->queue,&task);
-		candy_mutex_unlock(&self->mutex);
+		candy_mutex_unlock(self->mutex);
 	}
 }
 void candy_worker_queue_execute(struct candy_worker* self,candy_worker_fn fn,void *arg){
-	candy_mutex_lock(&self->mutex);
+	candy_mutex_lock(self->mutex);
 	struct candy_task task;
 	task.fn = fn;
 	task.arg = arg;
 	candy_queue_push(&self->queue,&task);
-	candy_mutex_unlock(&self->mutex);
+	candy_mutex_unlock(self->mutex);
 }
 int candy_worker_in_loop(struct candy_worker* self){
-	return (candy_thread_self() == candy_thread_id(&self->thread))?0:-1;
+	return candy_thread_is_in(self->thread);
 }

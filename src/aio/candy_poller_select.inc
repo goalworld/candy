@@ -1,7 +1,6 @@
 
 #include "candy_poller.h"
-#include "../base/candy_log.h"
-#include "../base/candy_error.h"
+#include "candy/candy_log.h"
 #include <string.h>
 
 void candy_poller_init(struct candy_poller* self){

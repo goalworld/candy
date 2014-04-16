@@ -3,7 +3,8 @@
 #include "./candy_worker.h"
 #include <stdlib.h>
 #include <memory.h>
-#include "../base/candy_log.h"
+#include "candy/candy_log.h"
+#include "candy/candy_error.h"
 
 static void candy_close_and_free_aio(void* arg);
 static void candy_aio_pool_do_destroy(struct candy_aio* aio);
@@ -30,23 +31,23 @@ void candy_aio_pool_destroy(struct candy_aio_pool* self){
 	}
 	free(self->aio_map);
 	free(self->unused );
-	candy_mutex_destroy(&self->mtx);
+	candy_mutex_destroy(self->mtx);
 }
 struct candy_aio* candy_aio_pool_get_aio(struct candy_aio_pool* self,int handle){
-	candy_mutex_lock(&self->mtx);
+	candy_mutex_lock(self->mtx);
 	if(handle >= self->max_aio){
-		candy_mutex_unlock(&self->mtx);
+		candy_mutex_unlock(self->mtx);
 		return NULL;
 	}
 	struct candy_aio* aio = self->aio_map[handle];
-	candy_mutex_unlock(&self->mtx);
+	candy_mutex_unlock(self->mtx);
 	return aio;
 }
 struct candy_aio* candy_aio_pool_alloc_aio(struct candy_aio_pool* self,struct candy_worker* worker){
-	candy_mutex_lock(&self->mtx);
+	candy_mutex_lock(self->mtx);
 	if(self->num_aio >= self->max_aio){
 		CANDY_INFO("candy_context_alloc_aio is full %d",self->max_aio);
-		candy_mutex_unlock(&self->mtx);
+		candy_mutex_unlock(self->mtx);
 		return NULL;
 	}
 	int handle = self->unused[self->max_aio-self->num_aio-1];
@@ -54,21 +55,21 @@ struct candy_aio* candy_aio_pool_alloc_aio(struct candy_aio_pool* self,struct ca
 	struct candy_aio* aio = (struct candy_aio*)malloc(sizeof(struct candy_aio));
 	self->aio_map[handle] = aio;
 	candy_aio_init(aio,self,handle,worker);
-	candy_mutex_unlock(&self->mtx);
+	candy_mutex_unlock(self->mtx);
 	return aio;
 }
 int candy_aio_pool_free(struct candy_aio_pool* self,int handle){
-	candy_mutex_lock(&self->mtx);
+	candy_mutex_lock(self->mtx);
 	struct candy_aio* aio = self->aio_map[handle];
 	if(!aio){
-		candy_mutex_unlock(&self->mtx);
+		candy_mutex_unlock(self->mtx);
 		return -CANDY_ENOTAIO;
 	}
 	self->num_aio--;
 	self->unused[self->max_aio-self->num_aio-1] = handle;
 	self->aio_map[handle] = NULL;
 	candy_aio_pool_do_destroy(aio);
-	candy_mutex_unlock(&self->mtx);
+	candy_mutex_unlock(self->mtx);
 	return 0;
 }
 

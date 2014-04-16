@@ -1,4 +1,4 @@
-#include "candy_thread.h"
+#include "candy/candy_thread.h"
 
 #if defined CANDY_HAVE_WINDOWS
 #include "candy_thread_win.inc"

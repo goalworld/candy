@@ -1,6 +1,6 @@
-#include "../candy.h"
-#include "../base/candy_log.h"
-#include "../base/candy_sleep.h"
+#include "candy/candy.h"
+#include "candy/candy_log.h"
+#include "candy/candy_sleep.h"
 
 static int num_recv;
 static int num_socket;

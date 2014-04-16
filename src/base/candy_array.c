@@ -6,7 +6,7 @@
  */
 
 
-#include "./candy_array.h"
+#include "candy/candy_array.h"
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>

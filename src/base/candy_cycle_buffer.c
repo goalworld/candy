@@ -1,4 +1,4 @@
-#include "./candy_cycle_buffer.h"
+#include "candy/candy_cycle_buffer.h"
 #include <string.h>
 #include <stdlib.h>
 #define DEFALUT_BUF_SZ 1024

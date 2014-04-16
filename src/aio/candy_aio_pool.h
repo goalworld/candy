@@ -1,13 +1,13 @@
 #ifndef CANDY_AIO_POOL_H_
 #define CANDY_AIO_POOL_H_
 
-#include "../base/candy_thread.h"
+#include "candy/candy_thread.h"
 
 #define CANDY_AIO_POOL_INVILD_HANDLE -1
 struct candy_aio;
 struct candy_worker;
 struct candy_aio_pool{
-	struct candy_mutex mtx;
+	candy_mutex_t mtx;
 	struct candy_aio** aio_map;
 	int* unused;
 	int max_aio;

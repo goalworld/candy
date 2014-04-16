@@ -1,5 +1,5 @@
 
-#include "./candy_queue.h"
+#include "candy/candy_queue.h"
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>

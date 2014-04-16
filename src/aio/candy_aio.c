@@ -1,9 +1,8 @@
 #include "./candy_aio.h"
 #include "./candy_aio_pool.h"
-#include "../base/candy_log.h"
+#include "candy/candy_log.h"
 #include "./candy_worker.h"
 #include "./candy_worker_pool.h"
-#include "../base/candy_error.h"
 #include <memory.h>
 
 
@@ -29,9 +28,9 @@ void candy_aio_init(struct candy_aio* aio,struct candy_aio_pool* woner,int s,str
 	candy_mutex_init(&aio->sync);
 }
 int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock){
-	candy_mutex_lock(&aio->sync);
+	candy_mutex_lock(aio->sync);
 	if(aio->state != CANDY_AIO_READY){
-		candy_mutex_unlock(&aio->sync);
+		candy_mutex_unlock(aio->sync);
 		return -1;
 	}
 	aio->sock = sock;
@@ -39,19 +38,19 @@ int candy_aio_set_socket(struct candy_aio* aio,candy_socket_t sock){
 	candy_socket_set_noblock(sock,1);
 	candy_poller_event_init(&aio->event,sock,candy_aio_event,aio);
 	candy_worker_execute(aio->worker,candy_aio_regist_event,aio);
-	candy_mutex_unlock(&aio->sync);
+	candy_mutex_unlock(aio->sync);
 	return 0;
 }
 int candy_aio_listen(struct candy_aio* aio,const char* ip,int port){
-	candy_mutex_lock(&aio->sync);
+	candy_mutex_lock(aio->sync);
 	if(aio->state != CANDY_AIO_READY){
-		candy_mutex_unlock(&aio->sync);
+		candy_mutex_unlock(aio->sync);
 		return -1;
 	}
 	candy_socket_t sock;
 	sock = candy_socket_listen(ip,port);
 	if(sock == CANDY_INVALID_SOCKET){
-		candy_mutex_unlock(&aio->sync);
+		candy_mutex_unlock(aio->sync);
 		return -1;
 	}
 	candy_socket_set_noblock(sock,1);
@@ -68,20 +67,20 @@ int candy_aio_listen(struct candy_aio* aio,const char* ip,int port){
 	}
 	candy_poller_event_init(&aio->event,sock,candy_aio_event,aio);
 	candy_worker_execute(aio->worker,candy_aio_regist_event,aio);
-	candy_mutex_unlock(&aio->sync);
+	candy_mutex_unlock(aio->sync);
 	return 0;
 	
 }
 int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout){
-	candy_mutex_lock(&aio->sync);
+	candy_mutex_lock(aio->sync);
 	if(aio->state != CANDY_AIO_READY){
-		candy_mutex_unlock(&aio->sync);
+		candy_mutex_unlock(aio->sync);
 		return -1;
 	}
 	candy_socket_t sock;
 	sock = candy_socket_connect_async(ip,port);
 	if(sock == CANDY_INVALID_SOCKET){
-		candy_mutex_unlock(&aio->sync);
+		candy_mutex_unlock(aio->sync);
 		return -1;
 	}
 	aio->sock = sock;
@@ -98,7 +97,7 @@ int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout)
 	candy_timer_event_init(&aio->timer_event,timeout,0,candy_aio_timer,aio);
 	candy_poller_event_init(&aio->event,sock,candy_aio_event,aio);
 	candy_worker_execute(aio->worker,candy_aio_regist_event,aio);
-	candy_mutex_unlock(&aio->sync);
+	candy_mutex_unlock(aio->sync);
 	return 0;
 }
 void candy_aio_timer(void *arg){
@@ -121,16 +120,16 @@ int candy_aio_send(struct candy_aio* aio,void* buf,int sz){
 	return -1;
 }
 void candy_aio_shutdown(struct candy_aio* aio){
-	candy_mutex_lock(&aio->sync);
+	candy_mutex_lock(aio->sync);
 	if(aio->state == CANDY_AIO_CONNECTED){
 		candy_socket_shutdown(aio->sock,CANDY_SHUTDOWN_RDWR);
 		aio->state = CANDY_AIO_SHUTDOWN;
 	}
-	candy_mutex_unlock(&aio->sync);
+	candy_mutex_unlock(aio->sync);
 }
 int candy_aio_destroy(struct candy_aio* aio){
 	CANDY_CHECK(candy_worker_in_loop(aio->worker) == 0);
-	candy_mutex_lock(&aio->sync);
+	candy_mutex_lock(aio->sync);
 	if(aio->state != CANDY_AIO_CLOSED && aio->state != CANDY_AIO_READY){
 		aio->state = CANDY_AIO_CLOSED;
 		candy_worker_remove_timer(aio->worker,&aio->timer_event);
@@ -138,8 +137,8 @@ int candy_aio_destroy(struct candy_aio* aio){
 		candy_poller_event_destroy(&aio->event);
 		candy_socket_close(aio->sock);
 	}
-	candy_mutex_unlock(&aio->sync);
-	candy_mutex_destroy(&aio->sync);
+	candy_mutex_unlock(aio->sync);
+	candy_mutex_destroy(aio->sync);
 	return 0;
 }
 void candy_aio_cb_accept(void *arg){

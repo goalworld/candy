@@ -1,5 +1,5 @@
-#include "candy_buffer.h"
-#include "candy_log.h"
+#include "candy/candy_buffer.h"
+#include "candy/candy_log.h"
 #include <stdlib.h>
 #include <memory.h>
 static void _grow(struct candy_buffer* buf,int size);

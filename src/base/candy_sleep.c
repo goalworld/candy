@@ -1,4 +1,4 @@
-#include "candy_sleep.h"
+#include "candy/candy_sleep.h"
 
 #if defined CANDY_HAVE_WINDOWS
 #include "candy_window.h"

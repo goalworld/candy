@@ -4,7 +4,7 @@ CC = gcc
 
 CFLAGS = -Wall -O -g -DCANDY_USE_EPOLL -fPIC
 #-std=c++0x 使用c++ 0x 标准
-INCLUDE_PATH = -I../src/
+INCLUDE_PATH = -I../include/
 
 BUILD_PATH = ./build/
 
@@ -25,6 +25,7 @@ install:
 	cp $(SRC_PATH)candy.h $(SRC_PATH)base/candy_array.h $(SRC_PATH)base/candy_queue.h $(SRC_PATH)base/candy_cycle_buffer.h  /include
 clean:
 	rm -rf $(OBJ_PATH)*
+
 OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_array.o\
 		$(OBJ_PATH)candy_glock.o\
@@ -38,26 +39,17 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_worker.o\
 		$(OBJ_PATH)candy_worker_pool.o\
 		$(OBJ_PATH)candy_sleep.o\
-		$(OBJ_PATH)candy_net.o\
+		$(OBJ_PATH)candy.o\
 		$(OBJ_PATH)candy_aio_pool.o\
 		$(OBJ_PATH)candy_cycle_buffer.o\
 		$(OBJ_PATH)candy_thread_pool.o\
 		$(OBJ_PATH)candy_buffer.o\
 		$(OBJ_PATH)candy_net_int.o
+	
+$(OBJ_PATH)candy_net_int.o : $(SRC_PATH)base/candy_net_int.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^	
 
-$(OBJ_PATH)candy_buffer.o : $(SRC_PATH)base/candy_buffer.c
-	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-
-$(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
-	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-			
-$(OBJ_PATH)candy_cycle_buffer.o : $(SRC_PATH)base/candy_cycle_buffer.c
-	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-
-$(OBJ_PATH)candy_worker_pool.o : $(SRC_PATH)aio/candy_worker_pool.c
-	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-
-$(OBJ_PATH)candy_net.o : $(SRC_PATH)aio/candy_net.c
+$(OBJ_PATH)candy.o : $(SRC_PATH)aio/candy.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 	
 $(OBJ_PATH)candy_context.o : $(SRC_PATH)aio/candy_context.c
@@ -66,7 +58,10 @@ $(OBJ_PATH)candy_context.o : $(SRC_PATH)aio/candy_context.c
 $(OBJ_PATH)candy_array.o : $(SRC_PATH)base/candy_array.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_net_int.o : $(SRC_PATH)base/candy_net_int.c
+$(OBJ_PATH)candy_cycle_buffer.o : $(SRC_PATH)base/candy_cycle_buffer.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_buffer.o : $(SRC_PATH)base/candy_buffer.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_glock.o : $(SRC_PATH)base/candy_glock.c
@@ -84,20 +79,28 @@ $(OBJ_PATH)candy_queue.o : $(SRC_PATH)base/candy_queue.c
 $(OBJ_PATH)candy_thread.o : $(SRC_PATH)base/candy_thread.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_timer.o : $(SRC_PATH)base/candy_timer.c
+$(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_timer.o : $(SRC_PATH)aio/candy_timer.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_aio.o : $(SRC_PATH)aio/candy_aio.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
 $(OBJ_PATH)candy_aio_pool.o : $(SRC_PATH)aio/candy_aio_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
 $(OBJ_PATH)candy_poller.o : $(SRC_PATH)aio/candy_poller.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_socket.o : $(SRC_PATH)base/candy_socket.c
+$(OBJ_PATH)candy_socket.o : $(SRC_PATH)aio/candy_socket.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_worker.o : $(SRC_PATH)aio/candy_worker.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_worker_pool.o : $(SRC_PATH)aio/candy_worker_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)server.o : $(SRC_PATH)test/server.c
