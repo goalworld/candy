@@ -1,6 +1,6 @@
 
-#ifndef _candy__QUEUE_H_
-#define _candy__QUEUE_H_
+#ifndef _CANDY_QUEUE_H_
+#define _CANDY_QUEUE_H_
 
 #include "./candy_export.h"
 
@@ -18,4 +18,6 @@ CANDY_EXPORT void candy_queue_destroy(struct candy_queue *que, candy_queue_elem_
 CANDY_EXPORT void candy_queue_push(struct candy_queue *que, void *elem);
 CANDY_EXPORT int candy_queue_pop(struct candy_queue *que, void *elem);
 CANDY_EXPORT unsigned candy_queue_size(struct candy_queue *que );
-#endif /* RAIN_QUEUE_H_ */
+
+#endif
+

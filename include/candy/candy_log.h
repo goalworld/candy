@@ -31,4 +31,5 @@ void candy_log(const char *pre,const char *filename,int line,const char *fmt,...
 
 #define CANDY_CHECK(ep) if(!(ep)){CANDY_ERROR("CANDY_CHECK_FAIL:%s",#ep);}
 
-#endif /* CANDY_LOGER_H_ */
+#endif
+

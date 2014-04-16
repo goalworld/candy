@@ -20,4 +20,6 @@ CANDY_EXPORT void candy_buffer_write(struct candy_buffer* buf,void *data,int siz
 CANDY_EXPORT int candy_buffer_read(struct candy_buffer* buf,void *data,int size);
 CANDY_EXPORT int candy_buffer_read_to_writer(struct candy_buffer* buf,candy_buffer_writer_fn fn,void* arg);
 CANDY_EXPORT void candy_buffer_destroy(struct candy_buffer* buf);
+
 #endif
+
