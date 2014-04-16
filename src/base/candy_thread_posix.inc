@@ -50,7 +50,7 @@ void candy_cond_init(struct candy_cond* cond){
 }
 void candy_cond_wait(struct candy_cond* cond){
     CANDY_CHECK(pthread_mutex_lock(&cond->mtx) == 0);
-    if(!this->notifyd){
+    if(!cond->notifyd){
         pthread_cond_wait(&cond->cond,&cond->mtx);
     }
     CANDY_CHECK(pthread_mutex_unlock(&cond->mtx) == 0);
