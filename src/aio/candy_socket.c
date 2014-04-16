@@ -1,7 +1,7 @@
 #include "./candy_socket.h"
 #include <string.h>
-#include "../base/candy_error.h"
-#include "../base/candy_log.h"
+#include "candy/candy_error.h"
+#include "candy/candy_log.h"
 static int 
 candy_check_ip(const char* host){
 	unsigned int i=0,count = 0;
