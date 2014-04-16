@@ -7,10 +7,13 @@ extern "C" {
 #include "./base/candy_export.h"
 #include "./base/candy_array.h"
 #include "./base/candy_queue.h"
+#include "./base/candy_buffer.h"
 #include "./base/candy_cycle_buffer.h"
 #include "./base/candy_thread.h"
+#include "./base/candy_thread_pool.h"
 #include "./base/candy_socket.h"
 #include "./base/candy_net_int.h"
+
 #define CANDY_HAUSNUMERO 156384712
 
 #define CANDY_EUNSATRT (CANDY_HAUSNUMERO+1)
