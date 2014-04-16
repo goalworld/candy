@@ -41,7 +41,12 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy.o\
 		$(OBJ_PATH)candy_aio_pool.o\
 		$(OBJ_PATH)candy_cycle_buffer.o\
-		$(OBJ_PATH)candy_thread_pool.o
+		$(OBJ_PATH)candy_thread_pool.o\
+		$(OBJ_PATH)candy_buffer.o\
+		$(OBJ_PATH)candy_net_int.o
+		
+$(OBJ_PATH)candy_buffer.o : $(SRC_PATH)base/candy_buffer.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
@@ -52,15 +57,16 @@ $(OBJ_PATH)candy_cycle_buffer.o : $(SRC_PATH)base/candy_cycle_buffer.c
 $(OBJ_PATH)candy_worker_pool.o : $(SRC_PATH)aio/candy_worker_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_context.o : $(SRC_PATH)core/candy_context.c
+$(OBJ_PATH)candy_net.o : $(SRC_PATH)aio/candy_net.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-
-$(OBJ_PATH)candy.o : $(SRC_PATH)core/candy.c
+	
+$(OBJ_PATH)candy_context.o : $(SRC_PATH)aio/candy_context.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_array.o : $(SRC_PATH)base/candy_array.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
-
+$(OBJ_PATH)candy_net_int.o : $(SRC_PATH)base/candy_net_int.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 $(OBJ_PATH)candy_glock.o : $(SRC_PATH)base/candy_glock.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 

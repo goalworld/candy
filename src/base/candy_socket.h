@@ -7,6 +7,11 @@
 	#define CANDY_SHUTDOWN_RD SD_RECEIVE 
 	#define CANDY_SHUTDOWN_WR SD_SEND
 	#define CANDY_SHUTDOWN_RDWR SD_BOTH
+	#define CANDY_GET_ERRNO GetLastError()
+	#define CANDY_EAGAIN WSAEWOULDBLOCK
+	#define CANDY_EINTR WSAEINTR
+	#define CANDY_ETIMEOUT WSAETIMEDOUT
+	#define CANDY_EINPROGRESS WSAEINPROGRESS
 #else
 	#include <sys/socket.h>
 	#include <unistd.h>
@@ -14,11 +19,18 @@
 	#include <netdb.h>
 	#include <fcntl.h>
 	#include <netinet/tcp.h>
+	#include <errno.h>
 	#define candy_socket_t int
 	#define CANDY_INVALID_SOCKET -1
 	#define CANDY_SHUTDOWN_RD SHUT_RD 
 	#define CANDY_SHUTDOWN_WR SHUT_WR
 	#define CANDY_SHUTDOWN_RDWR SHUT_RDWR
+
+	#define CANDY_GET_ERRNO errno
+	#define CANDY_EAGAIN EAGAIN
+	#define CANDY_EINTR EINTR
+	#define CANDY_ETIMEOUT ETIMEDOUT
+	#define CANDY_EINPROGRESS EINPROGRESS
 #endif
 
 candy_socket_t candy_socket_connect_async(const char* ip,int port);

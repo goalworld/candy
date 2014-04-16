@@ -16,6 +16,8 @@ enum{
 	CANDY_AIO_ERRORED,
 	CANDY_AIO_CLOSED,
 };
+struct candy_aio_pool;
+struct candy_worker;
 
 struct candy_aio{
 	struct candy_aio_pool* owner;
