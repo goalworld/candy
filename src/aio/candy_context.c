@@ -10,13 +10,15 @@
 #include <memory.h>
 
 void 
-candy_context_init(struct candy_context* self,int num_thread,int max_aio){
+candy_context_init(struct candy_context* self,int num_thread,int max_aio,int num_timer){
 	candy_aio_pool_init(&self->aio_pool,max_aio);
+	candy_timer_pool_init(&self->timer_pool,num_timer);
 	candy_worker_pool_init(&self->worker_pool,num_thread);
 }
 void 
 candy_context_destroy(struct candy_context* self){
 	candy_aio_pool_destroy(&self->aio_pool);
+	candy_timer_pool_destroy(&self->timer_pool);
 	candy_worker_pool_destroy(&self->worker_pool);
 }
 
@@ -37,4 +39,8 @@ candy_context_get_aio(struct candy_context* self,int s){
 int 
 candy_context_destroy_aio(struct candy_context* self,int s){
 	return candy_aio_pool_free(&self->aio_pool,s);
+}
+
+int candy_context_addtimer(struct candy_context* self,int timeout,int brepeat,candy_timerset_fn fn,void *arg){
+	return candy_timer_pool_addtimer(&self->timer_pool,candy_worker_pool_next(&self->worker_pool),timeout,brepeat,fn,arg);
 }

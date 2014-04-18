@@ -1,6 +1,9 @@
 
 #ifndef _CANDY_ARRAY_H_
 #define _CANDY_ARRAY_H_
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "./candy_export.h"
 
@@ -21,4 +24,7 @@ CANDY_EXPORT void candy_array_earse(struct candy_array *arr,int index,int numele
 CANDY_EXPORT void candy_array_insert(struct candy_array *arr,int index,void *elem,int numelem);
 CANDY_EXPORT unsigned candy_array_size(struct candy_array *arr);
 
+#ifdef __cplusplus
+}
+#endif
 #endif 

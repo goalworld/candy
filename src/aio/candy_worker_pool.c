@@ -25,3 +25,15 @@ void candy_worker_pool_destroy(struct candy_worker_pool* pool){
 	free(pool->workers );
 }
 
+void candy_worker_pool_wait(struct candy_worker_pool* pool){
+	int i;
+	for(i=0;i<pool->num_work;i++){
+		candy_worker_wait(&pool->workers[i]);
+	}
+}
+void candy_worker_pool_stop(struct candy_worker_pool* pool){
+	int i;
+	for(i=0;i<pool->num_work;i++){
+		candy_worker_stop(&pool->workers[i]);
+	}
+}

@@ -10,6 +10,8 @@ struct candy_worker_pool{
 };
 void candy_worker_pool_init(struct candy_worker_pool* pool,int num);
 struct candy_worker* candy_worker_pool_next(struct candy_worker_pool* pool);
+void candy_worker_pool_wait(struct candy_worker_pool* pool);
+void candy_worker_pool_stop(struct candy_worker_pool* pool);
 void candy_worker_pool_destroy(struct candy_worker_pool* pool);
 
 #endif

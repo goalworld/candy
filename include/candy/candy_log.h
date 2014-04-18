@@ -8,6 +8,11 @@
 #ifndef CANDY_LOGER_H_
 #define CANDY_LOGER_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #define CANDY_LOG_ERROR 0
 #define CANDY_LOG_WARN 1
 #define CANDY_LOG_DEBUG 2
@@ -31,5 +36,8 @@ void candy_log(const char *pre,const char *filename,int line,const char *fmt,...
 
 #define CANDY_CHECK(ep) if(!(ep)){CANDY_ERROR("CANDY_CHECK_FAIL:%s",#ep);}
 
+#ifdef __cplusplus
+}
+#endif
 #endif
 

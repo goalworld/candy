@@ -15,6 +15,7 @@ struct candy_callback{
 	void *arg;
 };
 CANDY_EXPORT void candy_start(int nt);
+CANDY_EXPORT void candy_wait();
 CANDY_EXPORT void candy_stop();
 
 CANDY_EXPORT int candy_aio();
@@ -27,6 +28,9 @@ CANDY_EXPORT int candy_close(int s);
 CANDY_EXPORT int candy_set_recvbuf_size(int s,int size);
 CANDY_EXPORT int candy_set_sendbuf_size(int s,int size);
 CANDY_EXPORT int candy_set_nodelay(int s,int flag);
+typedef void (*candy_timer_fn)(void* arg,int handle);
+CANDY_EXPORT int candy_set_timer(int timeout,int brepeat,candy_timer_fn fn,void*arg);
+CANDY_EXPORT int candy_clear_timer(int id);
 
 #ifdef __cplusplus
 }

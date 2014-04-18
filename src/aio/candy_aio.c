@@ -13,7 +13,7 @@ static void candy_aio_read(struct candy_aio* aio);
 static void candy_aio_regist_event(void* arg);
 static void candy_aio_event(void* arg,int event);
 static void candy_aio_handle_error(struct candy_aio* aio,int code);
-static void candy_aio_timer(void *arg);
+static void candy_aio_timer(void *arg,int id);
 void candy_aio_init(struct candy_aio* aio,struct candy_aio_pool* woner,int s,struct candy_worker* worker){
 	aio->state = CANDY_AIO_READY;
 	aio->worker = worker;
@@ -94,13 +94,13 @@ int candy_aio_connect(struct candy_aio* aio,const char* ip,int port,int timeout)
 	if(aio->bdelay > 0){
 		candy_socket_set_nodelay(aio->sock, aio->bdelay);
 	}
-	candy_timer_event_init(&aio->timer_event,timeout,0,candy_aio_timer,aio);
+	candy_timerset_event_init(&aio->timer_event,timeout,0,candy_aio_timer,aio,-1);
 	candy_poller_event_init(&aio->event,sock,candy_aio_event,aio);
 	candy_worker_execute(aio->worker,candy_aio_regist_event,aio);
 	candy_mutex_unlock(aio->sync);
 	return 0;
 }
-void candy_aio_timer(void *arg){
+void candy_aio_timer(void *arg,int id){
 	struct candy_aio* aio = (struct candy_aio*)arg;
 	if(aio->state == CANDY_AIO_CONNECTING){
 		candy_aio_handle_error(aio, CANDY_ETIMEOUT);

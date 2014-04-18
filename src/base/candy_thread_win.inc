@@ -6,6 +6,7 @@ struct candy_thread{
     candy_thread_fn fn;
     void * arg;
     HANDLE handle;
+    unsigned threadID;
 };
 
 struct candy_mutex{
@@ -25,15 +26,18 @@ void candy_thread_start(candy_thread_t* t,candy_thread_fn fn,void *arg){
 	self->fn = fn;
 	self->arg = arg;
 	self->handle = (HANDLE) _beginthreadex (NULL, 0,
-        candy_thread_main_routine, (void*) self, 0 , NULL);
+        candy_thread_main_routine, (void*) self, 0 , &self->threadID);
    
 	CANDY_CHECK (self->handle != NULL);
     *t = self;
 }
 int candy_thread_is_in(candy_thread_t self){
-   return self->handle == GetCurrentThread() ? 0:-1;
+   return self->threadID == GetCurrentThreadId() ? 0:-1;
 }
-
+void candy_thread_wait(candy_thread_t self){
+    DWORD rc = WaitForSingleObject (self->handle, INFINITE);
+    CANDY_CHECK(rc == 0);
+}
 void candy_thread_stop(candy_thread_t self){
 	DWORD rc;
     BOOL brc;

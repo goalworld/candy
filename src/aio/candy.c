@@ -2,6 +2,7 @@
 #include "candy/candy.h"
 #include "candy_aio.h"
 #include "candy/candy_error.h"
+#include "candy/candy_log.h"
 #include "../base/candy_glock.h"
 #include <assert.h>
 struct candy_context ctx;
@@ -20,8 +21,25 @@ void candy_start(int num_thread){
 		WSADATA wsa;	
 		WSAStartup(MAKEWORD(2,2),&wsa);
 	#endif
-	candy_context_init(&ctx,num_thread,10240);
+	candy_context_init(&ctx,num_thread,10240,10240);
 	candy_glock_unlock();
+}
+void candy_wait(){
+	candy_glock_lock();
+	if(!g_inited) {
+		candy_glock_unlock();
+		return;
+	}
+	candy_glock_unlock();
+	candy_context_wait(&ctx);
+	candy_glock_lock();
+		g_inited = 0;
+		candy_context_destroy(&ctx);
+	candy_glock_unlock();
+	
+	#if defined CANDY_HAVE_WINDOWS
+		WSACleanup();
+	#endif
 }
 void candy_stop(){
 	candy_glock_lock();
@@ -29,11 +47,8 @@ void candy_stop(){
 		candy_glock_unlock();
 		return;
 	}
-	g_inited = 0;
-	#if defined CANDY_HAVE_WINDOWS
-		WSACleanup();
-	#endif
-	candy_context_destroy(&ctx);
+	CANDY_DEBUG("CANDY_STOP %d",1);
+	candy_context_stop(&ctx);
 	candy_glock_unlock();
 }
 int candy_aio(){
@@ -100,3 +115,9 @@ int candy_set_nodelay(int s,int flag){
 	return candy_aio_set_nodelay(aio,flag);
 }
 
+int candy_set_timer(int timeout,int brepeat,candy_timer_fn fn,void*arg){
+	return candy_context_addtimer(&ctx,timeout,brepeat,(candy_timerset_fn)fn,arg);
+}
+int candy_clear_timer(int id){
+	return candy_context_removetimer(&ctx,id);
+}

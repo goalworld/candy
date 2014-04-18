@@ -1,6 +1,9 @@
 #ifndef CANDY_CYCLE_BUFFER_H_
 #define CANDY_CYCLE_BUFFER_H_ 
 #include "./candy_export.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef int(*candy_io_fn)(void *arg,void *buf,int size) ;
 
@@ -22,5 +25,8 @@ CANDY_EXPORT int candy_cycle_buffer_write_from_reader(struct candy_cycle_buffer*
 CANDY_EXPORT int candy_cycle_buffer_read_to_writer(struct candy_cycle_buffer* self,candy_io_fn fn,void *arg);
 #define candy_cycle_buffer_empty(self) (self)->has_data_
 
+#ifdef __cplusplus
+}
+#endif
 #endif
 

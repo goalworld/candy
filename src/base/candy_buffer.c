@@ -57,7 +57,10 @@ int candy_buffer_read_to_writer(struct candy_buffer* buf,candy_buffer_writer_fn 
 	CANDY_CHECK(fn != NULL);
 	int size = candy_buffer_data_size(buf);
 	if(size > 0){
-		return fn(arg,(void*)(buf->data+buf->rd),size);
+		int ret = fn(arg,(void*)(buf->data+buf->rd),size);
+		if(ret > 0){
+			buf->rd+=ret;
+		}
 	}
 	return 0;
 }
@@ -65,4 +68,9 @@ int candy_buffer_read_to_writer(struct candy_buffer* buf,candy_buffer_writer_fn 
 void candy_buffer_destroy(struct candy_buffer* buf){
 	CANDY_CHECK(buf != NULL);
 	free(buf->data);
+}
+
+void candy_buffer_clear(struct candy_buffer* buf){
+	buf->rd = 0;
+	buf->wr = 0;
 }

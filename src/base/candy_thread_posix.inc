@@ -36,7 +36,10 @@ void candy_thread_start(candy_thread_t* t,candy_thread_fn fn,void *arg){
 int candy_thread_is_in(candy_thread_t self){
     return self->pid == pthread_self() ? 0 : -1;
 }
-
+void candy_thread_wait(candy_thread_t self){
+    int rc = pthread_join(self->pid,&ret);
+    CANDY_CHECK(rc == 0);
+}
 void candy_thread_stop(candy_thread_t self){
 	void* ret; 
     int rc = pthread_join(self->pid,&ret);

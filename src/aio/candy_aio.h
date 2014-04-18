@@ -2,7 +2,7 @@
 #define CANDY_AIO_H_
 #include "candy_poller.h"
 #include "candy_socket.h"
-#include "candy_timer.h"
+#include "candy_timerset.h"
 #include "candy/candy_thread.h"
 #include "candy_worker.h"
 #include "candy/candy.h"
@@ -29,7 +29,7 @@ struct candy_aio{
 	struct candy_callback callback;
 	int handle;
 	int is_close;
-	struct candy_timer_event timer_event;
+	struct candy_timerset_event timer_event;
 	int rcv_size;
 	int snd_size;
 	int bdelay;
