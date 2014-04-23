@@ -8,7 +8,7 @@ extern "C" {
 
 void candy_sleep(int ms);
 
-int candy_time_now();
+long int candy_time_now();
 
 #ifdef __cplusplus
 }

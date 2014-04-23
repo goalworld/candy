@@ -11,7 +11,7 @@ struct candy_timerset_event{
 	int brepeat;
 	candy_timerset_fn fn;
 	void* arg;
-	int pre;
+	long int pre;
 	int bremove;
 	int handle;
 };

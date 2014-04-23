@@ -22,15 +22,15 @@ int candy_timerset_execute(struct candy_timerset* timer){
 
 	struct candy_timerset_event* ev;
 	timer->cur = 0;
-	int min = 500;
+	long int min = 500;
 	while(timer->cur<size){
-		int now = candy_time_now();
+		long int now = candy_time_now();
 		candy_array_at(&timer->arr,timer->cur,&ev);
 		if(ev->bremove != 0){
 			candy_array_earse(&timer->arr,timer->cur,1,NULL);
 			continue;
 		}
-		int df = now - ev->pre - ev->timeout;
+		long int df = now - ev->pre - ev->timeout;
 		CANDY_INFO("%d %d %d %d",size,df,now,ev->pre);
 		if(df >= 0 ){
 			if(!ev->brepeat){

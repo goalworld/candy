@@ -6,7 +6,7 @@
 void candy_sleep(int ms){
 	Sleep(ms);
 }
-int 
+long int 
 candy_time_now(){
 	return clock();
 }
@@ -21,12 +21,11 @@ void candy_sleep(int ms){
 	select(0,0,0,0,&tv);
 }
 
-int
+long int
 candy_time_now()
 {
 	struct timeval time;
 	gettimeofday(&time,NULL);
-	CANDY_INFO("%d %d",time.tv_sec,time.tv_usec);
 	return time.tv_sec*1000 + time.tv_usec/1000;
 }
 #endif
