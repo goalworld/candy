@@ -26,7 +26,7 @@ candy_time_now()
 {
 	struct timeval time;
 	gettimeofday(&time,NULL);
-	printf("%ld",time.tv_sec*1000 + time.tv_usec/1000)
+	printf("%ld",time.tv_sec*1000 + time.tv_usec/1000);
 	return time.tv_sec*1000 + time.tv_usec/1000;
 }
 #endif
