@@ -21,7 +21,7 @@ void candy_sleep(int ms){
 	select(0,0,0,0,&tv);
 }
 
-long int
+long long
 candy_time_now()
 {
 	struct timeval time;
