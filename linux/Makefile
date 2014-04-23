@@ -22,10 +22,6 @@ LIB_PATH = -L./build/
 #  位置，都可以正确的执行。这正是共享库所要求的，共享库被加载时，在内存的位置不是固定的。
 
 all:$(BUILD_PATH)libcandy.so $(BUILD_PATH)echo_server $(BUILD_PATH)echo_client
-install:
-	cp $(BUILD_PATH)libcandy.so /usr/lib
-	mkdir -p /usr/include/candy
-	cp -r ../include/candy/*  /usr/include
 clean:
 	rm -rf $(OBJ_PATH)*
 
