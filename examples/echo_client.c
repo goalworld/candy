@@ -63,6 +63,7 @@ int main(int argc,char* argv[]){
 		}
 		candy_sleep(1000);
 	}
+	candy_wait();
 	return 0;
 }
 

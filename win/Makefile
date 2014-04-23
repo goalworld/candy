@@ -28,7 +28,7 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_log.o\
 		$(OBJ_PATH)candy_queue.o\
 		$(OBJ_PATH)candy_thread.o\
-		$(OBJ_PATH)candy_timer.o\
+		$(OBJ_PATH)candy_timerset.o\
 		$(OBJ_PATH)candy_aio.o\
 		$(OBJ_PATH)candy_poller.o\
 		$(OBJ_PATH)candy_socket.o\
@@ -40,7 +40,8 @@ OBJS= 	$(OBJ_PATH)candy_context.o\
 		$(OBJ_PATH)candy_cycle_buffer.o\
 		$(OBJ_PATH)candy_thread_pool.o\
 		$(OBJ_PATH)candy_buffer.o\
-		$(OBJ_PATH)candy_net_int.o
+		$(OBJ_PATH)candy_net_int.o\
+		$(OBJ_PATH)candy_timer_pool.o
 	
 $(OBJ_PATH)candy_net_int.o : $(SRC_PATH)base/candy_net_int.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^	
@@ -78,13 +79,16 @@ $(OBJ_PATH)candy_thread.o : $(SRC_PATH)base/candy_thread.c
 $(OBJ_PATH)candy_thread_pool.o : $(SRC_PATH)base/candy_thread_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
-$(OBJ_PATH)candy_timer.o : $(SRC_PATH)aio/candy_timer.c
+$(OBJ_PATH)candy_timerset.o : $(SRC_PATH)aio/candy_timerset.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_aio.o : $(SRC_PATH)aio/candy_aio.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_aio_pool.o : $(SRC_PATH)aio/candy_aio_pool.c
+	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
+
+$(OBJ_PATH)candy_timer_pool.o : $(SRC_PATH)aio/candy_timer_pool.c
 	$(CC) $(INCLUDE_PATH) $(CFLAGS) -c -o $@  $^
 
 $(OBJ_PATH)candy_poller.o : $(SRC_PATH)aio/candy_poller.c

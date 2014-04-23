@@ -40,7 +40,12 @@ void accept_fn(void* arg,int s){
 	cb.arg = (void*)s;
 	candy_set_callback(s,cb);
 }
-
+void timer(void*arg,int id){
+	if(num_recv > 0){
+		CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
+		num_recv=0;
+	}
+}
 int main(){
 	candy_start(4);
 	int io = candy_aio();
@@ -59,12 +64,8 @@ int main(){
 	}
 	CANDY_INFO("candy_listen ok port:%d",1922);
 	candy_set_callback(io,cb);
-	while(1){
-		if(num_recv > 0){
-			CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
-			num_recv=0;
-		}
-		candy_sleep(1000);
-	}
+	
+	candy_set_timer(1000,1,timer,0);
+	candy_wait();
 	return 0;
 }
