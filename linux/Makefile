@@ -25,7 +25,7 @@ all:$(BUILD_PATH)libcandy.so $(BUILD_PATH)echo_server $(BUILD_PATH)echo_client
 install:
 	cp $(BUILD_PATH)libcandy.so /usr/lib
 	mkdir -p /usr/include/candy
-	cp -r $(INCLUDE_PATH)candy/*  /usr/include
+	cp -r ../include/candy/*  /usr/include
 clean:
 	rm -rf $(OBJ_PATH)*
 
