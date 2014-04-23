@@ -42,7 +42,6 @@ void candy_thread_wait(candy_thread_t self){
     CANDY_CHECK(rc == 0);
 }
 void candy_thread_stop(candy_thread_t self){
-	candy_thread_wait(self);
     free(self);
 }
 
