@@ -31,7 +31,7 @@ int candy_timerset_execute(struct candy_timerset* timer){
 			continue;
 		}
 		long long df = now - ev->pre - ev->timeout;
-		CANDY_INFO("%d %d %d %d",size,df,now,ev->pre);
+		CANDY_INFO("%d %lld %lld %lld",size,df,now,ev->pre);
 		if(df >= 0 ){
 			if(!ev->brepeat){
 				candy_array_earse(&timer->arr,timer->cur,1,NULL);
