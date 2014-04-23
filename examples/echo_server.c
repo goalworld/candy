@@ -45,6 +45,7 @@ void timer(void*arg,int id){
 		CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
 		num_recv=0;
 	}
+	CANDY_DEBUG("num_recv:%d,num_socket:%d",num_recv,num_socket);
 }
 int main(){
 	candy_start(4);
