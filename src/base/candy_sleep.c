@@ -1,5 +1,5 @@
 #include "candy/candy_sleep.h"
-
+#include "candy/candy_log.h"
 #if defined CANDY_HAVE_WINDOWS
 #include "candy_window.h"
 #include <stdlib.h>
@@ -26,7 +26,7 @@ candy_time_now()
 {
 	struct timeval time;
 	gettimeofday(&time,NULL);
-	printf("%ld",time.tv_sec*1000 + time.tv_usec/1000);
+	CANDY_INFO("%d %d",time.tv_sec,time.tv_usec);
 	return time.tv_sec*1000 + time.tv_usec/1000;
 }
 #endif
