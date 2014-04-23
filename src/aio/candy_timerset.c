@@ -40,8 +40,8 @@ int candy_timerset_execute(struct candy_timerset* timer){
 			ev->fn(ev->arg,ev->handle);
 			ev->pre = clock();
 		}else{
-			if(min > df){
-				min = df;
+			if(min > -df){
+				min = -df;
 			}
 		}
 		timer->cur++;
