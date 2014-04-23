@@ -65,7 +65,8 @@ int main(){
 	CANDY_INFO("candy_listen ok port:%d",1922);
 	candy_set_callback(io,cb);
 	
-	candy_set_timer(1000,1,timer,0);
+	int id = candy_set_timer(1000,1,timer,0);
+	CANDY_INFO("candy_set_timer ok port:%d",id);
 	candy_wait();
 	return 0;
 }
