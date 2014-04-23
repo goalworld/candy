@@ -47,6 +47,7 @@ int candy_timerset_execute(struct candy_timerset* timer){
 		timer->cur++;
 		size = candy_array_size(&timer->arr);
 	}
+	CANDY_INFO("%s","break");
 	return min;
 }
 void candy_timerset_add(struct candy_timerset* timer,struct candy_timerset_event* ev){
