@@ -1,6 +1,6 @@
 #include "candy_timerset.h"
 #include "candy/candy_log.h"
-
+#include "candy/candy_sleep.h"
 void 
 candy_timerset_event_init(struct candy_timerset_event*ptr,int timeout,int brepeat,candy_timerset_fn fn,void *arg,int handle){
 	(ptr)->timeout = (timeout);					
@@ -22,15 +22,15 @@ int candy_timerset_execute(struct candy_timerset* timer){
 
 	struct candy_timerset_event* ev;
 	timer->cur = 0;
-	clock_t min = 500;
+	int min = 500;
 	while(timer->cur<size){
-		clock_t now = clock();
+		int now = candy_time_now();
 		candy_array_at(&timer->arr,timer->cur,&ev);
 		if(ev->bremove != 0){
 			candy_array_earse(&timer->arr,timer->cur,1,NULL);
 			continue;
 		}
-		clock_t df = now - ev->pre - ev->timeout;
+		int df = now - ev->pre - ev->timeout;
 		CANDY_INFO("%d %d %d %d",size,df,now,ev->pre);
 		if(df >= 0 ){
 			if(!ev->brepeat){
@@ -38,7 +38,7 @@ int candy_timerset_execute(struct candy_timerset* timer){
 				timer->cur--;
 			}
 			ev->fn(ev->arg,ev->handle);
-			ev->pre = clock();
+			ev->pre = candy_time_now();
 		}else{
 			if(min > -df){
 				min = -df;
@@ -51,7 +51,7 @@ int candy_timerset_execute(struct candy_timerset* timer){
 	return min;
 }
 void candy_timerset_add(struct candy_timerset* timer,struct candy_timerset_event* ev){
-	ev->pre = clock();
+	ev->pre = candy_time_now();
 	candy_array_push(&timer->arr,&ev);
 }
 void candy_timerset_remove(struct candy_timerset* timer,struct candy_timerset_event* ev){
