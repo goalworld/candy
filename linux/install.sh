@@ -1,6 +1,6 @@
 #!/bin/bash
 cp ./build/libcandy.so /usr/lib
-if [ ! -x "/usr/lib64" ]; then
+if [ -x "/usr/lib64" ]; then
 cp ./build/libcandy.so /usr/lib64
 fi
 
