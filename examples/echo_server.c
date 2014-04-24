@@ -67,6 +67,8 @@ int main(){
 	
 	int id = candy_set_timer(1000,1,timer,0);
 	CANDY_INFO("candy_set_timer ok port:%d",id);
-	candy_wait();
+	while(1){
+		candy_sleep(1000);
+	}
 	return 0;
 }

@@ -49,6 +49,10 @@ int candy_buffer_read(struct candy_buffer* buf,void *data,int size){
 	size = data_size > size ? size : data_size;
 	if(size > 0){
 		memcpy(data, (void*)(buf->data+buf->rd), size);
+		buf->rd += size;
+		if(buf->rd == buf->wr){
+			buf->rd = buf->wr;
+		}
 	}
 	return size;
 }

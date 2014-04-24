@@ -192,11 +192,18 @@ void candy_aio_event(void* arg,int event){
 		candy_poller_event_unset_out(&aio->event);
 		if(aio->state == CANDY_AIO_CONNECTING){
 			candy_worker_remove_timer(aio->worker,&aio->timer_event);
-			candy_poller_event_set_in(&aio->event);
-			aio->state = CANDY_AIO_CONNECTED;
-			if(aio->callback.connect_fn){
-				aio->callback.connect_fn(aio->callback.arg);
-			}	
+			int err;
+			int errlen = sizeof(err);
+			int ret = getsockopt(aio->sock, SOL_SOCKET, SO_ERROR,(char*) &err,&errlen);
+			if(ret == 0 && err == 0){
+				candy_poller_event_set_in(&aio->event);
+				aio->state = CANDY_AIO_CONNECTED;
+				if(aio->callback.connect_fn){
+					aio->callback.connect_fn(aio->callback.arg);
+				}	
+			}else{
+				candy_aio_handle_error(aio,err);
+			}
 		}else if(aio->state == CANDY_AIO_CONNECTED){
 			if(aio->callback.drain_fn){
 				aio->callback.drain_fn(aio->callback.arg);
