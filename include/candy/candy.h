@@ -15,7 +15,6 @@ struct candy_callback{
 	void *arg;
 };
 CANDY_EXPORT void candy_start(int nt);
-CANDY_EXPORT void candy_wait();
 CANDY_EXPORT void candy_stop();
 
 CANDY_EXPORT int candy_aio();

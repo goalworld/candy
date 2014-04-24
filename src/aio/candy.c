@@ -24,6 +24,7 @@ void candy_start(int num_thread){
 	candy_context_init(&ctx,num_thread,10240,10240);
 	candy_glock_unlock();
 }
+/*
 void candy_wait(){
 	candy_glock_lock();
 	if(!g_inited) {
@@ -40,7 +41,7 @@ void candy_wait(){
 	#if defined CANDY_HAVE_WINDOWS
 		WSACleanup();
 	#endif
-}
+}*/
 void candy_stop(){
 	candy_glock_lock();
 	if(!g_inited) {
@@ -48,7 +49,8 @@ void candy_stop(){
 		return;
 	}
 	CANDY_DEBUG("CANDY_STOP %d",1);
-	candy_context_stop(&ctx);
+	candy_context_destroy(&ctx);
+	g_inited = 0;
 	candy_glock_unlock();
 }
 int candy_aio(){
