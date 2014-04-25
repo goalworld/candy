@@ -47,7 +47,7 @@ void timer(void*arg,int id){
 	}
 }
 int main(){
-	candy_start(4);
+	candy_lib_init(4);
 	int io = candy_aio();
 	if(io < 0){
 		CANDY_INFO("candy_socket error%i",io);
@@ -70,5 +70,6 @@ int main(){
 	while(1){
 		candy_sleep(1000);
 	}
+	candy_lib_destroy();
 	return 0;
 }

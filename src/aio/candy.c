@@ -10,7 +10,7 @@ int g_inited = 0;
 
 #define ASSERT_STARTED assert(g_inited);
 
-void candy_start(int num_thread){
+void candy_lib_init(int num_thread){
 	candy_glock_lock();
 	if(g_inited) {
 		candy_glock_unlock();
@@ -42,7 +42,7 @@ void candy_wait(){
 		WSACleanup();
 	#endif
 }*/
-void candy_stop(){
+void candy_lib_destroy(){
 	candy_glock_lock();
 	if(!g_inited) {
 		candy_glock_unlock();

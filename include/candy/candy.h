@@ -14,8 +14,8 @@ struct candy_callback{
 	void (*accept_fn)(void* arg,int s);
 	void *arg;
 };
-CANDY_EXPORT void candy_start(int nt);
-CANDY_EXPORT void candy_stop();
+CANDY_EXPORT void candy_lib_init(int nt);
+CANDY_EXPORT void candy_lib_destroy();
 
 CANDY_EXPORT int candy_aio();
 CANDY_EXPORT int candy_set_callback(int s,struct candy_callback cb);

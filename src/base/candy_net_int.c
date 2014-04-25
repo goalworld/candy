@@ -13,9 +13,9 @@ unsigned short candy_htons(unsigned short val){
 unsigned short candy_ntohs(unsigned short val){
 	return ntohs(val);
 }
-unsigned long candy_htonl(unsigned long val){
+unsigned  candy_htonl(unsigned  val){
 	return htonl(val);
 }
-unsigned long candy_ntohl(unsigned long val){
+unsigned  candy_ntohl(unsigned  val){
 	return ntohl(val);
 }

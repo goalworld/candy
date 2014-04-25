@@ -6,8 +6,8 @@ extern "C" {
 
 unsigned short candy_htons(unsigned short);
 unsigned short candy_ntohs(unsigned short);
-unsigned long candy_htonl(unsigned long);
-unsigned long candy_ntohl(unsigned long);
+unsigned  candy_htonl(unsigned );
+unsigned  candy_ntohl(unsigned );
 
 #ifdef __cplusplus
 }

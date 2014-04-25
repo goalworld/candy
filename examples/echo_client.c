@@ -41,7 +41,7 @@ static void close_fn(void* arg,int code){
 }
 
 int main(int argc,char* argv[]){
-	candy_start(4);
+	candy_lib_init(4);
 	int max = 1;
 	int i=0;
 	if(argc == 2){
@@ -63,7 +63,7 @@ int main(int argc,char* argv[]){
 		}
 		candy_sleep(1000);
 	}
-	candy_wait();
+	candy_lib_destroy();
 	return 0;
 }
 
